@@ -56,6 +56,7 @@ for epoch in range(epochs):
         b_i_h += -learn_rate * delta_h
         # print("w_i_h b_i_h", w_i_h, b_i_h)
 
+
     #show accuracy for this epoch
     print(f"Acc: {round((nr_correct / images.shape[0]) * 100, 2)}%")
     nr_correct = 0
