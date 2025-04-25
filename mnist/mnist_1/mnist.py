@@ -2,19 +2,20 @@ import numpy as np
 from data import get_mnist
 
 from dense import Dense
-from activations import Tanh
+from activations import Tanh, Softmax
 from losses import mse, mse_prime
 from network import train, predict
 
 def to_categorical_numpy(y, num_classes):
+    y = y.astype(int).flatten() #to make it as integer
     return np.eye(num_classes)[y]
 
-def preprocess(x, y, limit):
+def preprocess(x, y):
     x = x.reshape(x.shape[0], 28 * 28, 1)
     x = x.astype("float32") / 255
     y = to_categorical_numpy(y, num_classes=10)
     y = y.reshape(y.shape[0], 10, 1)
-    return x[:limit], y[:limit]
+    return x, y
 
 def split_data(x, y, train_size=1000, test_size=20, seed=66):
     np.random.seed(seed)
@@ -30,14 +31,17 @@ def split_data(x, y, train_size=1000, test_size=20, seed=66):
 
 # load MIST from server
 x_data, y_data = get_mnist()
+x_data, y_data = preprocess(x_data, y_data)
 x_train, y_train, x_test, y_test = split_data(x_data, y_data, train_size=1000, test_size=20)
 
 # neural network
 network = [
     Dense(28*28, 40),
-    Tanh(),
+    # Tanh(),
+    Softmax(),
     Dense(40, 10),
-    Tanh(),
+    # Tanh(),
+    Softmax()
 ]
 
 # train
