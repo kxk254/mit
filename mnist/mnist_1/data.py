@@ -3,7 +3,8 @@ import pathlib
 
 def get_mnist():
     base_dir = pathlib.Path(__file__).resolve().parent
-    data_path = "H:/dev/mit/mnist/data/mnist.npz"
+    # data_path = "H:/dev/mit/mnist/data/mnist.npz"
+    data_path = "D:/develop/mit/mnist/data/mnist.npz"
     with np.load(data_path) as f:
         images, labels = f["x_train"], f["y_train"]
     images = images.astype("float32") / 255

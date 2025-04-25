@@ -8,6 +8,8 @@ class Dense(Layer):
     
     def forward(self, input):
         self.input = input
+        # a = np.dot(self.weights, self.input) + self.bias
+        # print("shape output from DENSE", a.shape)
         return np.dot(self.weights, self.input) + self.bias
     
     def backward(self, output_gradient, learning_rate):

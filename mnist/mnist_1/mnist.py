@@ -2,12 +2,11 @@ import numpy as np
 from data import get_mnist
 
 from dense import Dense
-from activations import Tanh, Sigmoid
-from losses import mse, mse_prime, categorical_cross_entropy, categorical_cross_entropy_prime 
+from activations import Tanh
+from losses import mse, mse_prime
 from network import train, predict
 
 def to_categorical_numpy(y, num_classes):
-    y = y.astype(int).flatten()
     return np.eye(num_classes)[y]
 
 def preprocess(x, y):
@@ -37,14 +36,10 @@ x_train, y_train, x_test, y_test = split_data(x_data, y_data, train_size=1000, t
 
 # neural network
 network = [
-    Dense(28*28, 400),
-    # Tanh(),
-    Sigmoid(),
-    Dense(400, 70),
-    Sigmoid(),
-    # Tanh(),
-    Dense(70, 10),
-    Sigmoid(),
+    Dense(28*28, 40),
+    Tanh(),
+    Dense(40, 10),
+    Tanh(),
 ]
 
 
