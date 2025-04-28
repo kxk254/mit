@@ -22,3 +22,4 @@ def train(network, loss, loss_prime, x_train, y_train, epochs = 3, learning_rate
         error /= len(x_train)
         if verbose:
             print(f"{e + 1}/{epochs}, error={error}")
+        print(e, "---", network[4].weights[0])
