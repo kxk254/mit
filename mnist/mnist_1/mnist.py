@@ -2,11 +2,12 @@ import numpy as np
 from data import get_mnist
 
 from dense import Dense
-from activations import Tanh
+from activations import Tanh, Softmax
 from losses import mse, mse_prime
 from network import train, predict
 
 def to_categorical_numpy(y, num_classes):
+    y = y.astype(int).flatten() #to make it as integer
     return np.eye(num_classes)[y]
 
 def preprocess(x, y):
@@ -37,9 +38,11 @@ x_train, y_train, x_test, y_test = split_data(x_data, y_data, train_size=1000, t
 # neural network
 network = [
     Dense(28*28, 40),
-    Tanh(),
+    # Tanh(),
+    Softmax(),
     Dense(40, 10),
-    Tanh(),
+    # Tanh(),
+    Softmax()
 ]
 
 
