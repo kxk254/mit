@@ -5,16 +5,16 @@ import matplotlib.pyplot as plt
 
 
 #hyper parameters
-batch_size = 64
-block_size = 256
+batch_size = 8 #64
+block_size = 4 #256
 max_iters = 5000
-eval_interval = 500
-learning_rate = 3e-4
+eval_interval = 250
+learning_rate = 3e-5
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 eval_iters = 200
-n_embd = 384
-n_head = 6
-n_layer = 6
+n_embd = 256 #384
+n_head = 4  #6
+n_layer = 4  #6
 dropout = 0.2
 #-------------
 
@@ -223,3 +223,30 @@ for iter in range(max_iters):
 context = torch.zeros((1, 1), dtype=torch.long, device=device)
 print(decode(m.generate(context, max_new_tokens=500)[0].tolist()))
 
+
+# PS D:\dev\mit\Karpathy\llm> py .\bigram.py
+# step 0: train loss 4.284884, val loss 4.2823
+# step 500: train loss 1.976354, val loss 2.0689
+# step 1000: train loss 1.554858, val loss 1.7411
+# step 1500: train loss 1.397579, val loss 1.6011
+# step 2000: train loss 1.304354, val loss 1.5458
+# step 2500: train loss 1.241086, val loss 1.5099
+# step 3000: train loss 1.187475, val loss 1.4963
+# step 3500: train loss 1.138522, val loss 1.4905
+# step 4000: train loss 1.095621, val loss 1.4935
+# step 4500: train loss 1.046936, val loss 1.5009
+
+# I will lie on our larks, this sword passess
+# And them our knees of rocks a great treasons with
+# A she-grief orde and a senator, this quare is enemies.
+# That nature seen we banks; now mine shall hear me,
+# For I ever used that trod is so into express,
+# That I have write out a thousand house
+# And can light of a viney's kiss again:
+# My mother's pare--if I confess nhugs for this:
+# It that set my breast, I lorder say,
+# Thereug, my sweets, whose raises grant
+# But they came to themselves again. By ears?
+
+# CLADY:
+# T
