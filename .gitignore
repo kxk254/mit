@@ -21,6 +21,8 @@
 *.zip
 *.npy
 
+*.npy
+
 # Logs and databases #
 ######################
 # *.log
