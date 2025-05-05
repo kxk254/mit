@@ -20,6 +20,8 @@
 *.tar
 *.zip
 
+*.npy
+
 # Logs and databases #
 ######################
 # *.log
