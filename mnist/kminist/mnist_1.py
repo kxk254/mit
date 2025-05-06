@@ -104,6 +104,7 @@ for step in range(steps):
 
         print(f"{step:2d} iter -> loss output :{loss_output.item():.4f} | lr: {lr:7f} | Accuracy: {accuracy*100:.2f}%| Val Loss: {val_loss.item():.4f} | Val Acccuracy: {val_accuracy*100:.2f}%")
     
+    optimizer.zero_grad()
     loss_output.backward()
     optimizer.step()
     
