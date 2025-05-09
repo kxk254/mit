@@ -107,7 +107,7 @@ for step in range(100):
     """
 
 plt.ioff()  # Turn off interactive mode
-plt.show()  # Show the final plot
+# plt.show()  # Show the final plot
 
 
 for i in range(5):
