@@ -54,3 +54,6 @@ venv/
 
 # yolo
 runs
+
+#triton
+triton
