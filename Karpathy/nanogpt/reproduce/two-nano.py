@@ -176,5 +176,27 @@ class GPT(nn.Module):
         fused_available = 'fused' in inspect.signature(torch.optim.AdamW).parameters
         use_fused = fused_available and 'cuds' in device
         print(f"using fused AdamW: {use_fused}")
-        optimizer = torch.optim.AdamW(optin_groups, lr=learning_rate, betas=(0.9, 0.95), eps=1e-8, fused=use_fused)
+        optimizer = torch.optim.AdamW(optim_groups, lr=learning_rate, betas=(0.9, 0.95), eps=1e-8, fused=use_fused)
         return optimizer
+    
+    def get_most_likely_row(tokens, mask, logits):
+        """ 
+        Which sequence was most likely, according to the model?
+        - Shifts logits and tokens to align predictions with targets.
+        - Computes cross-entropy loss per token (how wrong was the model).
+        - Applies the mask to ignore padding or irrelevant tokens.
+        - Averages the loss over valid tokens → gives average loss per sequence.
+
+        """
+        shift_logits = (logits[..., :-1, :]).contiguous()  #(B, T-1, Vocabsize)
+        shift_tokens = (tokens[..., 1:]).contiguous()  #(B, T-1)
+        flat_shift_logits = shift_logits.view(-1, shift_logits.size(-1))  #(B*T-1, V)
+        flat_shift_tokens = shift_tokens.view(-1)  #(B*T-1)
+        shift_losses = F.cross_entropy(flat_shift_logits, flat_shift_tokens, reduction='none') #(B*T-1)
+        shift_losses = shift_losses.view(tokens.size(0), -1)  #(B, T-1)
+        shift_mask = (mask[..., 1:]).contiguous()  #(B, T-1)
+        masked_shift_losses = shift_losses * shift_mask    #(B, T-1)
+        sum_loss = masked_shift_losses.sum(dim=1)  #(B, )
+        avg_loss = sum_loss / shift_mask.sum(dim=1)  #(B, )
+        pred_norm = avg_loss.argmin().item()  #integer    Find the index of the row with the lowest average loss 
+        return pred_norm
