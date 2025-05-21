@@ -63,6 +63,9 @@ class DisentangledSelfAttention(nn.Module):
 
     def transpose_for_scores(self, x, attention_heads):
         new_x_shape = x.size()[:-1] + (attention_heads, -1)
+        # x of shape [batch_size, seq_len, hidden_size] into [batch_size, seq_len, attention_heads, head_dim].
+        # batch_size = 2   seq_len = 5   hidden_size = 12  attention_heads = 3
+        # head_dim = hidden_size // attention_heads = 12 // 3 = 4
         x = x.view(*new_x_shape)
         return x.permute(0, 2, 1, 3).contiguous().view(-1, x.size(1), x.size(-1))
 
