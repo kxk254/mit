@@ -1,0 +1,359 @@
+/* 基本的なリセット */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block; /* 画像の下の余白をなくす */
+}
+
+a {
+    text-decoration: none;
+    color: #007bff; /* リンクの色 */
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+h1, h2, h3 {
+    color: #333;
+    margin-bottom: 1em;
+}
+
+h1 { font-size: 2.5em; }
+h2 { font-size: 2em; }
+h3 { font-size: 1.5em; }
+
+p {
+    margin-bottom: 1em;
+}
+
+/* コンテナ：コンテンツの幅を制限し中央寄せ */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px; /* 左右に余白 */
+}
+
+/* ヘッダー */
+header {
+    background-color: #fff;
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky; /* スクロールしても追従 */
+    top: 0;
+    z-index: 100;
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* スマホ表示で折り返す */
+}
+
+.site-title a {
+    display: block;
+    color: #333;
+    font-size: 1.8em;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+nav ul {
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    color: #333;
+    font-weight: bold;
+}
+
+/* メインコンテンツの各セクション */
+.section {
+    padding: 60px 0; /* セクションの上下に余白 */
+}
+
+.section.bg-gray {
+    background-color: #f8f8f8;
+}
+
+.section.bg-primary {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.section.bg-primary h2 {
+    color: #fff;
+}
+
+/* ヒーローセクション */
+.hero {
+    background-color: #e9ecef;
+    padding: 100px 0;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.hero h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+/* ボタン */
+.btn-primary,
+.btn-secondary,
+.btn-tertiary {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+    border: 1px solid #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #545b62;
+    color: #fff;
+}
+
+.btn-tertiary {
+     background-color: transparent;
+     color: #007bff;
+     border: 1px solid #007bff;
+}
+
+.btn-tertiary:hover {
+    background-color: #e9ecef;
+}
+
+
+/* 画像とテキストの配置例 */
+.image-right {
+    display: flex;
+    flex-direction: column; /* モバイル優先で縦並び */
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.image-right img {
+    flex-shrink: 0; /* 縮小しない */
+}
+
+
+/* サービスリスト、特徴リスト、事例リストなどのグリッド/フレックスレイアウト */
+.service-list,
+.feature-list,
+.case-study-list {
+    display: grid;
+    gap: 30px; /* 要素間の隙間 */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* レスポンシブに対応したカラム設定 */
+    margin-top: 30px;
+}
+
+.service-item,
+.feature-item,
+.case-study-item {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center; /* 必要に応じてテキストを中央寄せ */
+}
+
+.service-item img,
+.feature-item img {
+    margin: 0 auto 15px; /* 画像の下に余白 */
+}
+
+.case-study-item img {
+     margin-bottom: 15px;
+}
+
+.feature-item h3,
+.service-item h3 {
+    margin-top: 0;
+}
+
+/* FAQスタイル */
+dl dt {
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #007bff;
+}
+
+dl dd {
+    margin-left: 1em;
+    margin-bottom: 15px;
+    padding-left: 1em;
+    border-left: 2px solid #007bff;
+}
+
+
+/* フッター */
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 30px 0;
+    text-align: center;
+}
+
+.footer-nav ul {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.footer-nav ul li {
+    margin: 0 15px;
+}
+
+.footer-nav ul li a {
+    color: #ccc;
+}
+
+.footer-nav ul li a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.copyright {
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+
+/* レスポンシブ対応（メディアクエリ） */
+@media (min-width: 768px) {
+    /* 768px以上の画面サイズに適用 */
+
+    header .container {
+        flex-wrap: nowrap; /* 折り返しなし */
+    }
+
+    nav ul {
+        margin-left: auto; /* ナビを右寄せ */
+    }
+
+    .image-right {
+        flex-direction: row; /* 横並び */
+        align-items: flex-start; /* 上揃え */
+    }
+
+     .image-right img {
+        width: 40%; /* 例として幅を調整 */
+        margin-right: 30px; /* 右側に余白 */
+        margin-bottom: 0; /* モバイル用の下余白をリセット */
+     }
+
+    .service-list,
+    .feature-list {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 画面サイズに合わせて調整 */
+    }
+
+    .case-study-list {
+         grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* 画面サイズに合わせて調整 */
+    }
+
+}
+
+@media (max-width: 767px) {
+    /* 767px以下の画面サイズ（主にスマートフォン）に適用 */
+
+    .hero h1 {
+        font-size: 2em;
+    }
+
+    .hero p {
+        font-size: 1em;
+    }
+
+    header .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .site-title {
+        margin-bottom: 15px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    nav ul li {
+        margin: 5px 0;
+        width: 100%;
+    }
+
+    nav ul li a {
+         display: block;
+         padding: 5px 0;
+         border-bottom: 1px solid #eee; /* リンク間に線 */
+    }
+
+    .service-list,
+    .feature-list,
+    .case-study-list {
+        grid-template-columns: 1fr; /* 1カラム表示 */
+    }
+
+    .image-right img {
+        width: 100%; /* 幅いっぱいに */
+    }
+
+    .footer-nav ul {
+        flex-direction: column;
+    }
+
+    .footer-nav ul li {
+        margin: 5px 0;
+    }
+}
