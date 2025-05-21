@@ -19,21 +19,21 @@ import random
 import torch
 import re
 import ujson as json
-from .metrics import *
-from .task import EvalData, Task
-from .task_registry import register_task
-from ...utils import xtqdm as tqdm
-from ...data import ExampleInstance, ExampleSet, DynamicDataset,example_to_feature
-from ...data.example import *
-from ...utils import get_logger
-from ..models.multi_choice import MultiChoiceModel
+from DeBERTa.apps.tasks.metrics import *
+from DeBERTa.apps.tasks import EvalData, Task,register_task
+from DeBERTa.utils import xtqdm as tqdm
+from DeBERTa.data import ExampleInstance, ExampleSet, DynamicDataset,example_to_feature
+from DeBERTa.data.example import *
+from DeBERTa.utils import get_logger
+from DeBERTa.data.example import _truncate_segments
+from DeBERTa.apps.models.multi_choice import MultiChoiceModel
 
 logger=get_logger()
 
-__all__ = ["RACETask"]
+__all__ = ["MyRACETask"]
 
-@register_task(name="RACE", desc="ReAding Comprehension dataset collected from English Examinations, http://www.qizhexie.com/data/RACE_leaderboard.html")
-class RACETask(Task):
+@register_task(name="MyRACE", desc="ReAding Comprehension dataset collected from English Examinations, http://www.qizhexie.com/data/RACE_leaderboard.html")
+class MyRACETask(Task):
   def __init__(self, data_dir, tokenizer, args, **kwargs):
     super().__init__(tokenizer, args, **kwargs)
     self.data_dir = data_dir
@@ -166,3 +166,12 @@ dataset_size = dataset_size, shuffle=True, **kwargs)
     def partial_class(*wargs, **kwargs):
       return MultiChoiceModel.load_model(*wargs, **kwargs)
     return partial_class
+
+  @classmethod
+  def add_arguments(cls, parser):
+    """Add task specific arguments
+      e.g. parser.add_argument('--data_dir', type=str, help='The path of data directory.')
+    """
+    parser.add_argument('--task_example_arg', type=str, default=None, help='An example task specific argument')
+
+    return parser
