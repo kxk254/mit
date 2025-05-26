@@ -22,6 +22,7 @@
 *.npy
 
 *.npy
+.env
 
 # Logs and databases #
 ######################
@@ -38,6 +39,7 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+chroma_db
 
 # from Karpathy
 ######################
@@ -51,9 +53,16 @@ __pycache__/
 *.pyc
 env/
 venv/
+*.sqlite3
+*.pdf
+datasetfiles/
+*.pth
+
 
 # yolo
 runs
 
 #triton
 triton
+
+langchain_env

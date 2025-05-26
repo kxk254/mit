@@ -1,5 +1,5 @@
-import torch 
-from collections import OrderedDict 
+import torch
+from collections import OrderedDict
 from collections.abc import Mapping, Sequence
 
 def merge_distributed(data_list, max_len=None):
@@ -49,3 +49,4 @@ def join_chunks(chunks, max_len=None):
         data = data[:max_len]
       data_list.append(data)
     return data_list
+
