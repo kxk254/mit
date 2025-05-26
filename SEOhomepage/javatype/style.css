@@ -1,0 +1,404 @@
+/* リセットCSS (簡易版) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #fff;
+    overflow-x: hidden; /* 横スクロールを防ぐ */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-padding {
+    padding: 80px 0;
+}
+
+h1, h2, h3 {
+    margin-bottom: 20px;
+    line-height: 1.3;
+}
+
+h1 {
+    font-size: 2.5em;
+}
+
+h2 {
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h3 {
+    font-size: 1.5em;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block; /* 画像の下の余白を消す */
+    margin-bottom: 20px;
+}
+
+/* ヘッダー */
+.site-header {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.site-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-title h1 {
+    margin: 0;
+    font-size: 1.8em;
+}
+
+.site-title h1 a {
+    color: #333;
+    text-decoration: none;
+}
+
+.site-title p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.site-nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+}
+
+.site-nav li {
+    margin-left: 30px;
+}
+
+.site-nav a {
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.site-nav a:hover {
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* ハンバーガーメニューボタン (モバイル用) */
+.nav-toggle {
+    display: none; /* デスクトップでは非表示 */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001; /* ナビゲーションより手前に */
+}
+
+.nav-toggle span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #333;
+    transition: all 0.3s ease;
+}
+
+/* ハンバーガーメニュー (開閉時のスタイルはJSで切り替える) */
+.site-nav {
+     /* デスクトップ表示のまま */
+}
+
+
+/* ヒーローセクション */
+.hero {
+    background: url('images/hero-bg.jpg') no-repeat center center/cover; /* 背景画像 */
+    color: #fff;
+    text-align: center;
+    padding: 150px 20px;
+    position: relative;
+}
+
+.hero::before { /* オーバーレイ */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明の黒 */
+    z-index: 1;
+}
+
+.hero .container {
+     position: relative; /* コンテンツをオーバーレイより手前に */
+     z-index: 2;
+}
+
+.hero h2 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: #fff; /* テキスト色 */
+}
+
+.hero p {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #0056b3;
+    text-decoration: none;
+}
+
+.cta-button.secondary {
+    background-color: #6c757d;
+}
+.cta-button.secondary:hover {
+    background-color: #545b62;
+}
+
+
+/* サービスセクション */
+.service-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* レスポンシブ対応 */
+    gap: 30px;
+}
+
+.service-item {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    text-align: center;
+}
+
+.service-item img {
+    max-width: 100px; /* アイコン的な画像サイズ */
+    margin: 0 auto 20px auto;
+}
+
+.service-item h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* 実績セクション */
+.bg-light {
+    background-color: #f8f9fa;
+}
+.bg-dark {
+    background-color: #343a40;
+    color: #fff;
+}
+.bg-dark h2,
+.bg-dark p {
+    color: #fff;
+}
+.bg-dark a.cta-button {
+    color: #fff;
+}
+
+
+.case-study-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.case-study-item {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.case-study-item h3 {
+    margin-top: 0;
+    color: #007bff;
+}
+.case-study-item p {
+    margin-bottom: 10px;
+    font-size: 0.95em;
+}
+.case-study-item .readmore {
+     display: inline-block;
+     margin-top: 15px;
+     font-weight: bold;
+}
+
+
+/* 私たちについてセクション */
+.about-section img {
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.about-section .container {
+    text-align: center;
+}
+
+
+/* フッター */
+.site-footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.site-footer p {
+    margin-bottom: 15px;
+    font-size: 0.9em;
+}
+
+.footer-nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; /* はみ出し防止 */
+}
+
+.footer-nav li {
+    margin: 0 15px 10px 15px; /* 下部に余白を追加 */
+}
+
+.footer-nav a {
+    color: #bbb;
+    transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2em;
+    }
+    h2 {
+        font-size: 1.8em;
+        margin-bottom: 30px;
+    }
+    h3 {
+        font-size: 1.3em;
+    }
+    .section-padding {
+        padding: 50px 0;
+    }
+    .hero {
+        padding: 100px 20px;
+    }
+    .hero h2 {
+        font-size: 2em;
+    }
+    .hero p {
+        font-size: 1em;
+    }
+
+    /* ナビゲーション (モバイル時) */
+    .site-header .container {
+        flex-wrap: wrap; /* タイトルとボタンを縦に並べる可能性も考慮 */
+    }
+    .site-title {
+         flex-grow: 1; /* タイトルを左に寄せ、幅を取る */
+    }
+    .nav-toggle {
+        display: flex; /* モバイルで表示 */
+    }
+
+    .site-nav {
+        width: 100%;
+        max-height: 0; /* 初期状態は高さを0に */
+        overflow: hidden; /* はみ出た内容は隠す */
+        transition: max-height 0.3s ease-in-out;
+        flex-basis: 100%; /* 幅を100%に */
+    }
+
+    .site-nav.is-open { /* JSでこのクラスを付与 */
+        max-height: 300px; /* 開いた時の高さ (コンテンツに合わせて調整) */
+    }
+
+    .site-nav ul {
+        flex-direction: column;
+        align-items: center; /* 中央揃え */
+        padding: 20px 0;
+    }
+
+    .site-nav li {
+        margin: 10px 0; /* 縦方向に余白 */
+    }
+
+    /* ハンバーガーアイコンのアニメーション */
+     .nav-toggle.is-active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+     }
+     .nav-toggle.is-active span:nth-child(2) {
+        opacity: 0;
+     }
+     .nav-toggle.is-active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+     }
+
+
+    .service-list,
+    .case-study-list {
+        grid-template-columns: 1fr; /* 1カラム表示 */
+    }
+
+    .footer-nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-nav li {
+        margin: 5px 0;
+    }
+}
