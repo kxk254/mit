@@ -17,7 +17,7 @@ cfg.backbone = "convnext_small.fb_in22k_ft_in1k"
 cfg.ema = True
 cfg.ema_decay = 0.99
 
-cfg.epochs = 1
+cfg.epochs = 2
 cfg.batch_size = 8  # 16
 cfg.batch_size_val = 8 # 16
 
