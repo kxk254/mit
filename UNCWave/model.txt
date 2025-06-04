@@ -1,0 +1,624 @@
+
+backbone
+backbone.stem_0
+backbone.stem_0.0
+backbone.stem_0.1
+backbone.stem_0.2
+backbone.stem_1
+backbone.stages_0
+backbone.stages_0.downsample
+backbone.stages_0.blocks
+backbone.stages_0.blocks.0
+backbone.stages_0.blocks.0.conv_dw
+backbone.stages_0.blocks.0.norm
+backbone.stages_0.blocks.0.mlp
+backbone.stages_0.blocks.0.mlp.fc1
+backbone.stages_0.blocks.0.mlp.act
+backbone.stages_0.blocks.0.mlp.drop1
+backbone.stages_0.blocks.0.mlp.norm
+backbone.stages_0.blocks.0.mlp.fc2
+backbone.stages_0.blocks.0.mlp.drop2
+backbone.stages_0.blocks.0.shortcut
+backbone.stages_0.blocks.0.drop_path
+backbone.stages_0.blocks.1
+backbone.stages_0.blocks.1.conv_dw
+backbone.stages_0.blocks.1.norm
+backbone.stages_0.blocks.1.mlp
+backbone.stages_0.blocks.1.mlp.fc1
+backbone.stages_0.blocks.1.mlp.act
+backbone.stages_0.blocks.1.mlp.drop1
+backbone.stages_0.blocks.1.mlp.norm
+backbone.stages_0.blocks.1.mlp.fc2
+backbone.stages_0.blocks.1.mlp.drop2
+backbone.stages_0.blocks.1.shortcut
+backbone.stages_0.blocks.1.drop_path
+backbone.stages_0.blocks.2
+backbone.stages_0.blocks.2.conv_dw
+backbone.stages_0.blocks.2.norm
+backbone.stages_0.blocks.2.mlp
+backbone.stages_0.blocks.2.mlp.fc1
+backbone.stages_0.blocks.2.mlp.act
+backbone.stages_0.blocks.2.mlp.drop1
+backbone.stages_0.blocks.2.mlp.norm
+backbone.stages_0.blocks.2.mlp.fc2
+backbone.stages_0.blocks.2.mlp.drop2
+backbone.stages_0.blocks.2.shortcut
+backbone.stages_0.blocks.2.drop_path
+backbone.stages_1
+backbone.stages_1.downsample
+backbone.stages_1.downsample.0
+backbone.stages_1.downsample.1
+backbone.stages_1.blocks
+backbone.stages_1.blocks.0
+backbone.stages_1.blocks.0.conv_dw
+backbone.stages_1.blocks.0.norm
+backbone.stages_1.blocks.0.mlp
+backbone.stages_1.blocks.0.mlp.fc1
+backbone.stages_1.blocks.0.mlp.act
+backbone.stages_1.blocks.0.mlp.drop1
+backbone.stages_1.blocks.0.mlp.norm
+backbone.stages_1.blocks.0.mlp.fc2
+backbone.stages_1.blocks.0.mlp.drop2
+backbone.stages_1.blocks.0.shortcut
+backbone.stages_1.blocks.0.drop_path
+backbone.stages_1.blocks.1
+backbone.stages_1.blocks.1.conv_dw
+backbone.stages_1.blocks.1.norm
+backbone.stages_1.blocks.1.mlp
+backbone.stages_1.blocks.1.mlp.fc1
+backbone.stages_1.blocks.1.mlp.act
+backbone.stages_1.blocks.1.mlp.drop1
+backbone.stages_1.blocks.1.mlp.norm
+backbone.stages_1.blocks.1.mlp.fc2
+backbone.stages_1.blocks.1.mlp.drop2
+backbone.stages_1.blocks.1.shortcut
+backbone.stages_1.blocks.1.drop_path
+backbone.stages_1.blocks.2
+backbone.stages_1.blocks.2.conv_dw
+backbone.stages_1.blocks.2.norm
+backbone.stages_1.blocks.2.mlp
+backbone.stages_1.blocks.2.mlp.fc1
+backbone.stages_1.blocks.2.mlp.act
+backbone.stages_1.blocks.2.mlp.drop1
+backbone.stages_1.blocks.2.mlp.norm
+backbone.stages_1.blocks.2.mlp.fc2
+backbone.stages_1.blocks.2.mlp.drop2
+backbone.stages_1.blocks.2.shortcut
+backbone.stages_1.blocks.2.drop_path
+backbone.stages_2
+backbone.stages_2.downsample
+backbone.stages_2.downsample.0
+backbone.stages_2.downsample.1
+backbone.stages_2.blocks
+backbone.stages_2.blocks.0
+backbone.stages_2.blocks.0.conv_dw
+backbone.stages_2.blocks.0.norm
+backbone.stages_2.blocks.0.mlp
+backbone.stages_2.blocks.0.mlp.fc1
+backbone.stages_2.blocks.0.mlp.act
+backbone.stages_2.blocks.0.mlp.drop1
+backbone.stages_2.blocks.0.mlp.norm
+backbone.stages_2.blocks.0.mlp.fc2
+backbone.stages_2.blocks.0.mlp.drop2
+backbone.stages_2.blocks.0.shortcut
+backbone.stages_2.blocks.0.drop_path
+backbone.stages_2.blocks.1
+backbone.stages_2.blocks.1.conv_dw
+backbone.stages_2.blocks.1.norm
+backbone.stages_2.blocks.1.mlp
+backbone.stages_2.blocks.1.mlp.fc1
+backbone.stages_2.blocks.1.mlp.act
+backbone.stages_2.blocks.1.mlp.drop1
+backbone.stages_2.blocks.1.mlp.norm
+backbone.stages_2.blocks.1.mlp.fc2
+backbone.stages_2.blocks.1.mlp.drop2
+backbone.stages_2.blocks.1.shortcut
+backbone.stages_2.blocks.1.drop_path
+backbone.stages_2.blocks.2
+backbone.stages_2.blocks.2.conv_dw
+backbone.stages_2.blocks.2.norm
+backbone.stages_2.blocks.2.mlp
+backbone.stages_2.blocks.2.mlp.fc1
+backbone.stages_2.blocks.2.mlp.act
+backbone.stages_2.blocks.2.mlp.drop1
+backbone.stages_2.blocks.2.mlp.norm
+backbone.stages_2.blocks.2.mlp.fc2
+backbone.stages_2.blocks.2.mlp.drop2
+backbone.stages_2.blocks.2.shortcut
+backbone.stages_2.blocks.2.drop_path
+backbone.stages_2.blocks.3
+backbone.stages_2.blocks.3.conv_dw
+backbone.stages_2.blocks.3.norm
+backbone.stages_2.blocks.3.mlp
+backbone.stages_2.blocks.3.mlp.fc1
+backbone.stages_2.blocks.3.mlp.act
+backbone.stages_2.blocks.3.mlp.drop1
+backbone.stages_2.blocks.3.mlp.norm
+backbone.stages_2.blocks.3.mlp.fc2
+backbone.stages_2.blocks.3.mlp.drop2
+backbone.stages_2.blocks.3.shortcut
+backbone.stages_2.blocks.3.drop_path
+backbone.stages_2.blocks.4
+backbone.stages_2.blocks.4.conv_dw
+backbone.stages_2.blocks.4.norm
+backbone.stages_2.blocks.4.mlp
+backbone.stages_2.blocks.4.mlp.fc1
+backbone.stages_2.blocks.4.mlp.act
+backbone.stages_2.blocks.4.mlp.drop1
+backbone.stages_2.blocks.4.mlp.norm
+backbone.stages_2.blocks.4.mlp.fc2
+backbone.stages_2.blocks.4.mlp.drop2
+backbone.stages_2.blocks.4.shortcut
+backbone.stages_2.blocks.4.drop_path
+backbone.stages_2.blocks.5
+backbone.stages_2.blocks.5.conv_dw
+backbone.stages_2.blocks.5.norm
+backbone.stages_2.blocks.5.mlp
+backbone.stages_2.blocks.5.mlp.fc1
+backbone.stages_2.blocks.5.mlp.act
+backbone.stages_2.blocks.5.mlp.drop1
+backbone.stages_2.blocks.5.mlp.norm
+backbone.stages_2.blocks.5.mlp.fc2
+backbone.stages_2.blocks.5.mlp.drop2
+backbone.stages_2.blocks.5.shortcut
+backbone.stages_2.blocks.5.drop_path
+backbone.stages_2.blocks.6
+backbone.stages_2.blocks.6.conv_dw
+backbone.stages_2.blocks.6.norm
+backbone.stages_2.blocks.6.mlp
+backbone.stages_2.blocks.6.mlp.fc1
+backbone.stages_2.blocks.6.mlp.act
+backbone.stages_2.blocks.6.mlp.drop1
+backbone.stages_2.blocks.6.mlp.norm
+backbone.stages_2.blocks.6.mlp.fc2
+backbone.stages_2.blocks.6.mlp.drop2
+backbone.stages_2.blocks.6.shortcut
+backbone.stages_2.blocks.6.drop_path
+backbone.stages_2.blocks.7
+backbone.stages_2.blocks.7.conv_dw
+backbone.stages_2.blocks.7.norm
+backbone.stages_2.blocks.7.mlp
+backbone.stages_2.blocks.7.mlp.fc1
+backbone.stages_2.blocks.7.mlp.act
+backbone.stages_2.blocks.7.mlp.drop1
+backbone.stages_2.blocks.7.mlp.norm
+backbone.stages_2.blocks.7.mlp.fc2
+backbone.stages_2.blocks.7.mlp.drop2
+backbone.stages_2.blocks.7.shortcut
+backbone.stages_2.blocks.7.drop_path
+backbone.stages_2.blocks.8
+backbone.stages_2.blocks.8.conv_dw
+backbone.stages_2.blocks.8.norm
+backbone.stages_2.blocks.8.mlp
+backbone.stages_2.blocks.8.mlp.fc1
+backbone.stages_2.blocks.8.mlp.act
+backbone.stages_2.blocks.8.mlp.drop1
+backbone.stages_2.blocks.8.mlp.norm
+backbone.stages_2.blocks.8.mlp.fc2
+backbone.stages_2.blocks.8.mlp.drop2
+backbone.stages_2.blocks.8.shortcut
+backbone.stages_2.blocks.8.drop_path
+backbone.stages_2.blocks.9
+backbone.stages_2.blocks.9.conv_dw
+backbone.stages_2.blocks.9.norm
+backbone.stages_2.blocks.9.mlp
+backbone.stages_2.blocks.9.mlp.fc1
+backbone.stages_2.blocks.9.mlp.act
+backbone.stages_2.blocks.9.mlp.drop1
+backbone.stages_2.blocks.9.mlp.norm
+backbone.stages_2.blocks.9.mlp.fc2
+backbone.stages_2.blocks.9.mlp.drop2
+backbone.stages_2.blocks.9.shortcut
+backbone.stages_2.blocks.9.drop_path
+backbone.stages_2.blocks.10
+backbone.stages_2.blocks.10.conv_dw
+backbone.stages_2.blocks.10.norm
+backbone.stages_2.blocks.10.mlp
+backbone.stages_2.blocks.10.mlp.fc1
+backbone.stages_2.blocks.10.mlp.act
+backbone.stages_2.blocks.10.mlp.drop1
+backbone.stages_2.blocks.10.mlp.norm
+backbone.stages_2.blocks.10.mlp.fc2
+backbone.stages_2.blocks.10.mlp.drop2
+backbone.stages_2.blocks.10.shortcut
+backbone.stages_2.blocks.10.drop_path
+backbone.stages_2.blocks.11
+backbone.stages_2.blocks.11.conv_dw
+backbone.stages_2.blocks.11.norm
+backbone.stages_2.blocks.11.mlp
+backbone.stages_2.blocks.11.mlp.fc1
+backbone.stages_2.blocks.11.mlp.act
+backbone.stages_2.blocks.11.mlp.drop1
+backbone.stages_2.blocks.11.mlp.norm
+backbone.stages_2.blocks.11.mlp.fc2
+backbone.stages_2.blocks.11.mlp.drop2
+backbone.stages_2.blocks.11.shortcut
+backbone.stages_2.blocks.11.drop_path
+backbone.stages_2.blocks.12
+backbone.stages_2.blocks.12.conv_dw
+backbone.stages_2.blocks.12.norm
+backbone.stages_2.blocks.12.mlp
+backbone.stages_2.blocks.12.mlp.fc1
+backbone.stages_2.blocks.12.mlp.act
+backbone.stages_2.blocks.12.mlp.drop1
+backbone.stages_2.blocks.12.mlp.norm
+backbone.stages_2.blocks.12.mlp.fc2
+backbone.stages_2.blocks.12.mlp.drop2
+backbone.stages_2.blocks.12.shortcut
+backbone.stages_2.blocks.12.drop_path
+backbone.stages_2.blocks.13
+backbone.stages_2.blocks.13.conv_dw
+backbone.stages_2.blocks.13.norm
+backbone.stages_2.blocks.13.mlp
+backbone.stages_2.blocks.13.mlp.fc1
+backbone.stages_2.blocks.13.mlp.act
+backbone.stages_2.blocks.13.mlp.drop1
+backbone.stages_2.blocks.13.mlp.norm
+backbone.stages_2.blocks.13.mlp.fc2
+backbone.stages_2.blocks.13.mlp.drop2
+backbone.stages_2.blocks.13.shortcut
+backbone.stages_2.blocks.13.drop_path
+backbone.stages_2.blocks.14
+backbone.stages_2.blocks.14.conv_dw
+backbone.stages_2.blocks.14.norm
+backbone.stages_2.blocks.14.mlp
+backbone.stages_2.blocks.14.mlp.fc1
+backbone.stages_2.blocks.14.mlp.act
+backbone.stages_2.blocks.14.mlp.drop1
+backbone.stages_2.blocks.14.mlp.norm
+backbone.stages_2.blocks.14.mlp.fc2
+backbone.stages_2.blocks.14.mlp.drop2
+backbone.stages_2.blocks.14.shortcut
+backbone.stages_2.blocks.14.drop_path
+backbone.stages_2.blocks.15
+backbone.stages_2.blocks.15.conv_dw
+backbone.stages_2.blocks.15.norm
+backbone.stages_2.blocks.15.mlp
+backbone.stages_2.blocks.15.mlp.fc1
+backbone.stages_2.blocks.15.mlp.act
+backbone.stages_2.blocks.15.mlp.drop1
+backbone.stages_2.blocks.15.mlp.norm
+backbone.stages_2.blocks.15.mlp.fc2
+backbone.stages_2.blocks.15.mlp.drop2
+backbone.stages_2.blocks.15.shortcut
+backbone.stages_2.blocks.15.drop_path
+backbone.stages_2.blocks.16
+backbone.stages_2.blocks.16.conv_dw
+backbone.stages_2.blocks.16.norm
+backbone.stages_2.blocks.16.mlp
+backbone.stages_2.blocks.16.mlp.fc1
+backbone.stages_2.blocks.16.mlp.act
+backbone.stages_2.blocks.16.mlp.drop1
+backbone.stages_2.blocks.16.mlp.norm
+backbone.stages_2.blocks.16.mlp.fc2
+backbone.stages_2.blocks.16.mlp.drop2
+backbone.stages_2.blocks.16.shortcut
+backbone.stages_2.blocks.16.drop_path
+backbone.stages_2.blocks.17
+backbone.stages_2.blocks.17.conv_dw
+backbone.stages_2.blocks.17.norm
+backbone.stages_2.blocks.17.mlp
+backbone.stages_2.blocks.17.mlp.fc1
+backbone.stages_2.blocks.17.mlp.act
+backbone.stages_2.blocks.17.mlp.drop1
+backbone.stages_2.blocks.17.mlp.norm
+backbone.stages_2.blocks.17.mlp.fc2
+backbone.stages_2.blocks.17.mlp.drop2
+backbone.stages_2.blocks.17.shortcut
+backbone.stages_2.blocks.17.drop_path
+backbone.stages_2.blocks.18
+backbone.stages_2.blocks.18.conv_dw
+backbone.stages_2.blocks.18.norm
+backbone.stages_2.blocks.18.mlp
+backbone.stages_2.blocks.18.mlp.fc1
+backbone.stages_2.blocks.18.mlp.act
+backbone.stages_2.blocks.18.mlp.drop1
+backbone.stages_2.blocks.18.mlp.norm
+backbone.stages_2.blocks.18.mlp.fc2
+backbone.stages_2.blocks.18.mlp.drop2
+backbone.stages_2.blocks.18.shortcut
+backbone.stages_2.blocks.18.drop_path
+backbone.stages_2.blocks.19
+backbone.stages_2.blocks.19.conv_dw
+backbone.stages_2.blocks.19.norm
+backbone.stages_2.blocks.19.mlp
+backbone.stages_2.blocks.19.mlp.fc1
+backbone.stages_2.blocks.19.mlp.act
+backbone.stages_2.blocks.19.mlp.drop1
+backbone.stages_2.blocks.19.mlp.norm
+backbone.stages_2.blocks.19.mlp.fc2
+backbone.stages_2.blocks.19.mlp.drop2
+backbone.stages_2.blocks.19.shortcut
+backbone.stages_2.blocks.19.drop_path
+backbone.stages_2.blocks.20
+backbone.stages_2.blocks.20.conv_dw
+backbone.stages_2.blocks.20.norm
+backbone.stages_2.blocks.20.mlp
+backbone.stages_2.blocks.20.mlp.fc1
+backbone.stages_2.blocks.20.mlp.act
+backbone.stages_2.blocks.20.mlp.drop1
+backbone.stages_2.blocks.20.mlp.norm
+backbone.stages_2.blocks.20.mlp.fc2
+backbone.stages_2.blocks.20.mlp.drop2
+backbone.stages_2.blocks.20.shortcut
+backbone.stages_2.blocks.20.drop_path
+backbone.stages_2.blocks.21
+backbone.stages_2.blocks.21.conv_dw
+backbone.stages_2.blocks.21.norm
+backbone.stages_2.blocks.21.mlp
+backbone.stages_2.blocks.21.mlp.fc1
+backbone.stages_2.blocks.21.mlp.act
+backbone.stages_2.blocks.21.mlp.drop1
+backbone.stages_2.blocks.21.mlp.norm
+backbone.stages_2.blocks.21.mlp.fc2
+backbone.stages_2.blocks.21.mlp.drop2
+backbone.stages_2.blocks.21.shortcut
+backbone.stages_2.blocks.21.drop_path
+backbone.stages_2.blocks.22
+backbone.stages_2.blocks.22.conv_dw
+backbone.stages_2.blocks.22.norm
+backbone.stages_2.blocks.22.mlp
+backbone.stages_2.blocks.22.mlp.fc1
+backbone.stages_2.blocks.22.mlp.act
+backbone.stages_2.blocks.22.mlp.drop1
+backbone.stages_2.blocks.22.mlp.norm
+backbone.stages_2.blocks.22.mlp.fc2
+backbone.stages_2.blocks.22.mlp.drop2
+backbone.stages_2.blocks.22.shortcut
+backbone.stages_2.blocks.22.drop_path
+backbone.stages_2.blocks.23
+backbone.stages_2.blocks.23.conv_dw
+backbone.stages_2.blocks.23.norm
+backbone.stages_2.blocks.23.mlp
+backbone.stages_2.blocks.23.mlp.fc1
+backbone.stages_2.blocks.23.mlp.act
+backbone.stages_2.blocks.23.mlp.drop1
+backbone.stages_2.blocks.23.mlp.norm
+backbone.stages_2.blocks.23.mlp.fc2
+backbone.stages_2.blocks.23.mlp.drop2
+backbone.stages_2.blocks.23.shortcut
+backbone.stages_2.blocks.23.drop_path
+backbone.stages_2.blocks.24
+backbone.stages_2.blocks.24.conv_dw
+backbone.stages_2.blocks.24.norm
+backbone.stages_2.blocks.24.mlp
+backbone.stages_2.blocks.24.mlp.fc1
+backbone.stages_2.blocks.24.mlp.act
+backbone.stages_2.blocks.24.mlp.drop1
+backbone.stages_2.blocks.24.mlp.norm
+backbone.stages_2.blocks.24.mlp.fc2
+backbone.stages_2.blocks.24.mlp.drop2
+backbone.stages_2.blocks.24.shortcut
+backbone.stages_2.blocks.24.drop_path
+backbone.stages_2.blocks.25
+backbone.stages_2.blocks.25.conv_dw
+backbone.stages_2.blocks.25.norm
+backbone.stages_2.blocks.25.mlp
+backbone.stages_2.blocks.25.mlp.fc1
+backbone.stages_2.blocks.25.mlp.act
+backbone.stages_2.blocks.25.mlp.drop1
+backbone.stages_2.blocks.25.mlp.norm
+backbone.stages_2.blocks.25.mlp.fc2
+backbone.stages_2.blocks.25.mlp.drop2
+backbone.stages_2.blocks.25.shortcut
+backbone.stages_2.blocks.25.drop_path
+backbone.stages_2.blocks.26
+backbone.stages_2.blocks.26.conv_dw
+backbone.stages_2.blocks.26.norm
+backbone.stages_2.blocks.26.mlp
+backbone.stages_2.blocks.26.mlp.fc1
+backbone.stages_2.blocks.26.mlp.act
+backbone.stages_2.blocks.26.mlp.drop1
+backbone.stages_2.blocks.26.mlp.norm
+backbone.stages_2.blocks.26.mlp.fc2
+backbone.stages_2.blocks.26.mlp.drop2
+backbone.stages_2.blocks.26.shortcut
+backbone.stages_2.blocks.26.drop_path
+backbone.stages_3
+backbone.stages_3.downsample
+backbone.stages_3.downsample.0
+backbone.stages_3.downsample.1
+backbone.stages_3.blocks
+backbone.stages_3.blocks.0
+backbone.stages_3.blocks.0.conv_dw
+backbone.stages_3.blocks.0.norm
+backbone.stages_3.blocks.0.mlp
+backbone.stages_3.blocks.0.mlp.fc1
+backbone.stages_3.blocks.0.mlp.act
+backbone.stages_3.blocks.0.mlp.drop1
+backbone.stages_3.blocks.0.mlp.norm
+backbone.stages_3.blocks.0.mlp.fc2
+backbone.stages_3.blocks.0.mlp.drop2
+backbone.stages_3.blocks.0.shortcut
+backbone.stages_3.blocks.0.drop_path
+backbone.stages_3.blocks.1
+backbone.stages_3.blocks.1.conv_dw
+backbone.stages_3.blocks.1.norm
+backbone.stages_3.blocks.1.mlp
+backbone.stages_3.blocks.1.mlp.fc1
+backbone.stages_3.blocks.1.mlp.act
+backbone.stages_3.blocks.1.mlp.drop1
+backbone.stages_3.blocks.1.mlp.norm
+backbone.stages_3.blocks.1.mlp.fc2
+backbone.stages_3.blocks.1.mlp.drop2
+backbone.stages_3.blocks.1.shortcut
+backbone.stages_3.blocks.1.drop_path
+backbone.stages_3.blocks.2
+backbone.stages_3.blocks.2.conv_dw
+backbone.stages_3.blocks.2.norm
+backbone.stages_3.blocks.2.mlp
+backbone.stages_3.blocks.2.mlp.fc1
+backbone.stages_3.blocks.2.mlp.act
+backbone.stages_3.blocks.2.mlp.drop1
+backbone.stages_3.blocks.2.mlp.norm
+backbone.stages_3.blocks.2.mlp.fc2
+backbone.stages_3.blocks.2.mlp.drop2
+backbone.stages_3.blocks.2.shortcut
+backbone.stages_3.blocks.2.drop_path
+decoder
+decoder.blocks
+decoder.blocks.0
+decoder.blocks.0.upsample
+decoder.blocks.0.upsample.deconv
+decoder.blocks.0.attention1
+decoder.blocks.0.attention1.attention
+decoder.blocks.0.conv1
+decoder.blocks.0.conv1.conv
+decoder.blocks.0.conv1.norm
+decoder.blocks.0.conv1.act
+decoder.blocks.0.conv2
+decoder.blocks.0.conv2.conv
+decoder.blocks.0.conv2.norm
+decoder.blocks.0.conv2.act
+decoder.blocks.0.attention2
+decoder.blocks.0.attention2.attention
+decoder.blocks.1
+decoder.blocks.1.upsample
+decoder.blocks.1.upsample.deconv
+decoder.blocks.1.attention1
+decoder.blocks.1.attention1.attention
+decoder.blocks.1.conv1
+decoder.blocks.1.conv1.conv
+decoder.blocks.1.conv1.norm
+decoder.blocks.1.conv1.act
+decoder.blocks.1.conv2
+decoder.blocks.1.conv2.conv
+decoder.blocks.1.conv2.norm
+decoder.blocks.1.conv2.act
+decoder.blocks.1.attention2
+decoder.blocks.1.attention2.attention
+decoder.blocks.2
+decoder.blocks.2.upsample
+decoder.blocks.2.upsample.deconv
+decoder.blocks.2.attention1
+decoder.blocks.2.attention1.attention
+decoder.blocks.2.conv1
+decoder.blocks.2.conv1.conv
+decoder.blocks.2.conv1.norm
+decoder.blocks.2.conv1.act
+decoder.blocks.2.conv2
+decoder.blocks.2.conv2.conv
+decoder.blocks.2.conv2.norm
+decoder.blocks.2.conv2.act
+decoder.blocks.2.attention2
+decoder.blocks.2.attention2.attention
+seg_head
+seg_head.conv
+seg_head.upsample
+seg_head.upsample.upsample_non_trainable
+
+
+ベテランAIエンジニアとして、このモデル構造から推測される内容に基づいてご質問にお答えします。
+
+提供されたレイヤーリストは、セマンティックセグメンテーションモデルのバックボーン、デコーダー、
+およびセグメンテーションヘッドを含む典型的な構造を示しています。特にバックボーンはConvNeXtのようなModern 
+ConvNetのブロック構造に似ています。
+
+それでは、番号順にご質問にお答えします。
+
+**１．どのレイヤーのActivation及びGradientsをトラックすることが一番良いですか。**
+
+Activation（活性化値、つまり層の出力テンソル）とGradients（勾配、通常は損失に対する層のパラメータの勾配、
+またはある層の出力に対する入力の勾配）をトラッキングすることは、モデルの学習状況の監視、デバッグ、および理解に役立ちます。
+トラッキングすべき「一番良い」レイヤーは目的によりますが、一般的には以下のポイントが有用です。
+
+*   **Activationトラッキングに推奨されるレイヤー:**
+    *   **各ステージの最終出力:** `backbone.stages_0`, `backbone.stages_1`, `backbone.stages_2`, `backbone.stages_3` の直後の出力。
+    これらはバックボーンが各解像度レベルで抽出した特徴マップです。特にセグメンテーションでは異なる解像度の特徴がデコーダーで使用されるため重要です。
+    *   **各ブロックのActivation関数の出力:** 例えば `backbone.stages_X.blocks.Y.mlp.act` の出力。Activation関数は非線形性を導入し、
+    特徴表現の多様性を生み出す核心部分です。ここに極端な値（NaNやinf）が出たり、ほとんどゼロになったりする場合は問題がある可能性があります。
+    *   **各Normalization層の出力:** 例えば `backbone.stages_X.blocks.Y.norm` の出力。正規化によって特徴マップのスケールや分布が調整されます。
+    正規化が適切に行われているか（例えば、平均がゼロ付近、分散が1付近になっているかなど）を確認するのに役立ちます。
+    *   **Decoderの各ブロックの出力:** `decoder.blocks.0`, `decoder.blocks.1`, `decoder.blocks.2` の出力。
+    これらはバックボーンの特徴を統合・アップサンプリングして、より詳細なセマンティック情報を再構築していく過程を示します。
+    *   **最終出力層の直前:** `seg_head.conv` の出力や `seg_head.upsample` の出力（最終出力）を見ることで、
+    モデルが最終的にどのような表現を生成しているかを確認できます。
+
+*   **Gradientsトラッキングに推奨されるレイヤー:**
+    *   **重みを持つ主要な層のパラメータの勾配:** 例えば、`backbone.stages_X.blocks.Y.conv_dw.weight` や `.bias`、`.mlp.fc1.weight` 
+    や `.bias`、`.mlp.fc2.weight` や `.bias`、`decoder.blocks.X.convY.conv.weight`、`decoder.blocks.X.upsample.deconv.weight`、`seg_head.conv.weight` など。これらの勾配のノルムや分布を確認することで、勾配消失や勾配爆発が発生していないか、また学習のどの部分が主に更新されているかを把握できます。
+    *   **各ブロックやステージの入力テンソルに対する勾配:** 例えば、`backbone.stages_X.blocks.Y` の入力テンソルに対する勾配。
+    これは、そのブロックが入力からどれだけ効率的に勾配を受け取っているかを示します。Residual Connection (`shortcut`) が勾配伝播に
+    役立っているかなどを確認するのに有効です。特に深い層の入力勾配が極めて小さい場合は、勾配消失の兆候かもしれません。
+
+総合的に見ると、学習初期は特に深い層（`stages_2`, `stages_3` のブロックや `decoder` のブロック）のActivationとGradientをチェックし、
+学習が進むにつれて全体的に異常がないか監視するのが良いでしょう。また、各ステージの最終出力と、最も多くのブロックを含む `stages_2` 内の代表的なブロック
+（例: 最初、中間、最後）のActivationと主要な重みのGradientをトラッキングするのが、情報量と計算コストのバランスが良いことが多いです。
+
+**２．backbone.stages_2のレイヤーの数が多い理由は何ですか**
+
+リストを見ると、`backbone.stages_0` には3ブロック、`stages_1` には3ブロック、`stages_2` には27ブロック、`stages_3` には3ブロックの `blocks` 
+が含まれているようです。
+
+`backbone.stages_2` のブロック数が他のステージと比較して圧倒的に多いのは、このステージがモデルにおいて**最も豊富で詳細な中間レベルの特徴を抽出する役割**
+を担っているためです。
+
+*   **階層的な特徴抽出:** Backboneは通常、入力画像を複数のステージで処理し、空間的な解像度を徐々に下げながら、より高レベルで抽象的な特徴を抽出します。
+*   **ステージの役割:**
+    *   初期ステージ (`stages_0`, `stages_1`) は、細かいエッジやテクスチャなどの低レベルな特徴を捉えます。空間解像度は比較的高く、
+    チャンネル数は少ない傾向があります。
+    *   中間ステージ (`stages_2`) は、より複雑なパターンやオブジェクトの一部など、セマンティックな情報に関連する中間レベルの特徴を捉えます。
+    空間解像度は中程度になり、チャンネル数は増加します。このステージで多数のブロックを使用することで、多様で強力な特徴表現を深く掘り下げて学習することができます。
+    *   最終ステージ (`stages_3`) は、大局的な構造やシーンの全体像など、高レベルな特徴を捉えます。空間解像度は最も低く、チャンネル数は最大になる傾向があります。
+*   **セグメンテーションタスクとの関連:** セマンティックセグメンテーションのようなタスクでは、ピクセルごとにクラスを分類するために、
+画像全体のコンテキスト情報だけでなく、オブジェクトの輪郭や形状といった局所的かつ中間的な情報も非常に重要になります。`stages_2` は、
+この中間的な解像度で豊富な情報を持つ特徴マップを生成するため、多くのブロックを積み重ねてその表現能力を最大化していると考えられます。
+
+この設計は、特にConvNeXtのような新しいConvNetアーキテクチャでよく見られるパターンで、Transformerモデルの中間層が多くの計算を担う構造を
+参考にしているとも言われます。多数のブロックを持つことで、この重要な解像度レベルで最大限の特徴抽出を行い、モデル全体の性能向上を図っています。
+
+**３．backbone.stages_2.blocks.1.shortcut backbone.stages_2.blocks.1.drop_path これらはなぜ必要なのですか**
+
+これらは、深いニューラルネットワークの学習を安定させ、性能を向上させるための重要な要素です。
+
+*   **`shortcut` (Residual Connection / スキップコネクション):**
+    *   これは、ある層（またはブロック）の入力を、その層の出力にそのまま加算するパスを作成します。図で言うと、入力 `x` があり、
+    ブロック内の処理 `f(x)` を通った後、出力は `f(x) + x` となります。
+    *   **必要性:**
+        *   **勾配消失問題の緩和:** 深いネットワークでは、誤差逆伝播時に勾配が層を通過するたびに小さくなり、初期の層まで十分に伝わらなくなる
+        「勾配消失」が問題となります。ショートカットパスは、勾配がブロック内の処理をスキップして直接伝わる別ルートを提供するため、
+        深い層でも勾配が消失しにくくなります。
+        *   **学習の容易化:** 残差（`f(x)`）を学習するという構造により、恒等写像（入力をそのまま出力する変換）を学習しやすくなります。
+        これは、層を追加しても性能が劣化しにくくなることを意味し、より深いネットワークを構築しやすくなります。
+        *   **情報伝達の改善:** 入力情報がブロック内の変換とは別に直接伝わることで、情報が失われにくくなります。
+
+*   **`drop_path` (Stochastic Depth / 確率的深さ):**
+    *   これは学習中、各ブロック全体（ブロック内の処理とショートカットパスを含む）を確率的にドロップアウト（無効化）する正則化手法です。
+    ドロップアウトされたブロックの出力はゼロになり、ショートカットパスの入力がそのまま出力として次の層に渡されます。
+    *   **必要性:**
+        *   **過学習の抑制:** 各ブロックが他のブロックに過度に依存することなく、入力から直接出力への情報伝達パスだけでも機能するように学習されます。
+        これにより、ネットワーク全体のロバスト性が向上し、特定のパスへの依存が減ることで過学習を防ぎます。
+        *   **アンサンブル効果:** 学習中に様々な組み合わせのサブネットワーク（一部のブロックがドロップされたネットワーク）が訓練されることになり、
+        これは多数のモデルを学習させて平均をとるアンサンブル学習に似た効果をもたらします。これにより、汎化性能が向上します。
+        *   **勾配伝播の改善:** ドロップアウトによってブロックが一時的に削除されることで、残ったパスを通じてより直接的に勾配が伝播する可能性があります。
+
+これらの要素は、特に深さのあるConvNet（ResNet, ConvNeXtなど）において、学習を可能にし、その性能を最大限に引き出すために不可欠な技術です。
+
+**４．以下のレイヤーのそれぞれの意味と順番は重要なのですか**
+
+リストされているのは、`backbone.stages_2.blocks.1.mlp` というモジュールの内部構造を構成するサブモジュールです。
+
+*   **各レイヤーの意味:**
+    *   `backbone.stages_2.blocks.1.mlp`: この全体がMLP (Multi-Layer Perceptron) ブロックを表します。ConvNeXtなどのアーキテクチャでは、
+    これはチャネル方向の特徴を変換するために使用されることが多く、Depthwise Convolutionの後に配置されます。
+    *   `backbone.stages_2.blocks.1.mlp.fc1`: 最初の全結合層（Linear層）です。入力特徴のチャネル次元を、通常は拡大します。
+    *   `backbone.stages_2.blocks.1.mlp.act`: Activation function（活性化関数）です。`fc1` の出力に非線形性を導入します。
+    ReLU, GeLU, SiLUなどが一般的です。
+    *   `backbone.stages_2.blocks.1.mlp.drop1`: 最初のドロップアウト層です。`act` の出力の一部を確率的にゼロにすることで、過学習を防ぎます。
+    *   `backbone.stages_2.blocks.1.mlp.norm`: 正規化層です。入力の分布を安定させ、学習を促進します。この位置にあることから、
+    Layer Normalizationなどが考えられます。
+    *   `backbone.stages_2.blocks.1.mlp.fc2`: 2番目の全結合層（Linear層）です。`norm` の出力（または`drop1`の出力）を、
+    ブロックの期待される出力チャネル次元に戻します。
+    *   `backbone.stages_2.blocks.1.mlp.drop2`: 2番目のドロップアウト層です。`fc2` の出力に適用される、追加の過学習防止策です。
+
+*   **順番の重要性:**
+    はい、これらのレイヤーの順番は**非常に重要**です。ニューラルネットワークは、これらの層が一連の連続した変換処理として機能することで特徴を
+    抽出・変換します。各層の出力が次の層の入力となるため、処理の順序が変わると、入力データが変換される方法が根本的に変わってしまいます。
+
+    例えば、「全結合層 -> 活性化関数 -> 正規化層」と「正規化層 -> 全結合層 -> 活性化関数」では、計算される値の範囲や分布が大きく異なり、
+    ネットワークの学習のしやすさ、安定性、そして最終的な性能に直接的な影響を与えます。
+
+    リストされている `fc1` -> `act` -> `drop1` -> `norm` -> `fc2` -> `drop2` という順番は、特定のアーキテクチャ
+    （例: ConvNeXtのModified MLP Blockの一部）に基づいて設計されたものです。この順序は、先行研究や実験によって最適な性能が得られると
+    判断された構成であり、モデルの機能を実現するために不可欠な要素です。したがって、これらのレイヤーのそれぞれの役割と、
+    それらが配置されている順番は、モデルの正確な動作と性能にとって極めて重要です。
