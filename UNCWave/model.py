@@ -23,6 +23,7 @@ from timm.models.convnext import ConvNeXtBlock
 
 from monai.networks.blocks import UpSample, SubpixelUpsample
 from types import SimpleNamespace
+from timm.models.layers import trunc_normal_
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -78,126 +79,6 @@ cfg.use_amp = True # Enable Automatic Mixed Precision
 cfg.amp_dtype = 'bfloat16' # 'bfloat16' or 'float16' - bfloat16 recommended if supported
 
 
-class CustomDataset(torch.utils.data.Dataset):
-    # --- Rewriting CustomDataset to return a time window ---
-    # This assumes each file is long enough (>= 1000 time steps).
-    # If files are shorter, padding or different sampling strategy is needed.
-    # Let's assume files are long enough for now.
-    # The index_map should store (file_idx, start_time_idx_of_window).
-
-    def __init__(
-        self,
-        cfg,
-        file_pairs,
-        mode = "train",
-    ):
-        self.cfg = cfg
-        self.mode = mode
-        self.file_pairs = file_pairs
-
-        self.data, self.labels = self._load_data_arrays()
-        print(f"[CustomDataset - init ]:self.data shape: {self.data[0].shape} | self.labels shape {self.labels[0].shape}")
-
-        if not self.data:
-             self.total_samples = 0
-             self.index_map = []
-             print(f"Dataset '{self.mode}' created with 0 total samples (no data loaded).")
-             return # Exit init if no data
-
-        self.samples_per_file = self.data[0].shape[0] # Total time steps in a file
-        self.index_map = [] # Number of geophones
-        print(f"[CustomDataset - init ]:samples_per_file : {self.samples_per_file}")  #500
-
-        # Build list of (file_idx, window_start_idx) pairs
-        for file_idx, file_data in enumerate(self.data):
-            print(f"[CustomDataset - init ]:file_idx : {file_idx} ") 
-            for b_idx in range(self.samples_per_file):
-                self.index_map.append((file_idx, b_idx))
-        
-        self.total_samples = len(self.index_map)
-        print(f"[CustomDataset - init ]:total_samples : {self.total_samples}")  #500
-        print(f"[CustomDataset - init ]:index_map : {self.index_map}")  #500
-
-    def _load_data_arrays(self, ):
-
-        data_arrays = []
-        label_arrays = []
-        mmap_mode = "r" # Use read-only memory map
-
-        # Only load a subset if subsample is much smaller than total possible samples
-        # This avoids memory mapping huge amounts if only a few samples are needed.
-        # However, the current logic always memory maps all files listed in file_pairs.
-        # For simplicity, we'll keep mmap_mode="r" as it's memory efficient for large files.
-
-        for data_fpath, label_fpath in tqdm(
-                        self.file_pairs, desc=f"Loading {self.mode} data (mmap)",
-                        disable=self.cfg.local_rank != 0 or not self.file_pairs):
-            try:
-                # Load the numpy arrays using memory mapping
-                arr = np.load(data_fpath, mmap_mode=mmap_mode)
-                lbl = np.load(label_fpath, mmap_mode=mmap_mode)
-                print(f"[CustomDataset - load data arrays ]:arr shape: {arr.shape} | lbl shape: {lbl.shape}")
-                lbl = np.squeeze(lbl, axis=1)
-                print(f"[CustomDataset - load data arrays ]:lbl after squeeze shape: {lbl.shape}")
-                # print(f"Loaded {data_fpath}: {arr.shape}, {lbl.shape}") # Too verbose
-                data_arrays.append(arr)
-                label_arrays.append(lbl)
-            except FileNotFoundError:
-                print(f"Error: File not found - {data_fpath} or {label_fpath}", file=sys.stderr)
-            except Exception as e:
-                print(f"Error loading file pair: {data_fpath}, {label_fpath}", file=sys.stderr)
-                print(f"Error: {e}", file=sys.stderr)
-                continue
-
-        if self.cfg.local_rank == 0 and self.file_pairs:
-            print(f"Finished loading {len(data_arrays)} file pairs for {self.mode} mode.")
-
-        return data_arrays, label_arrays
-    
-    def __getitem__(self, idx):
-        file_idx, start_time_idx = self.index_map[idx]
-        print(f"[CustomDataset - getitem ]:file_idx {file_idx} | file_idx{start_time_idx}")
-
-        # Access the data window and corresponding label (assuming label is the same map for all time steps in a file)
-        # If the label changes per time step, the label loading/indexing needs adjustment.
-        # The requested output is (B, 1, 70, 70), suggesting a single map per input window.
-        # Let's assume the geological map (label) is constant for all time steps within a single data file.
-        # So we load the label only once per file and return the same label for any window from that file.
-
-        x_sample = self.data[file_idx][start_time_idx] # (Samples_per_file, Channels, Geophones) -> (S, C, W) = (S, 5, 70)
-        y_sample = self.labels[file_idx][start_time_idx] # (Samples_per_file, Map_Height, Map_Width) -> (S, H', W') = (S, 70, 70)
-        print(f"[CustomDataset - getitem ]:x_full_file shape {x_sample.shape} | y_full_file shape: {y_sample.shape}")
-        # y_full_file = np.squeeze(y_full_file, axis=1)
-        # print(f"[CustomDataset - getitem ]:np.squeeze(y_full_file, axis=1)-shape: {y_full_file.shape}")
-
-        # --- Augmentations (apply to window and label) ---
-        x_augmented = x_sample.copy()
-        y_augmented = y_sample.copy()
-       
-        if self.mode == "train":
-            # Temporal flip (e.g., flipping across time dimension - dim 1)
-            if np.random.random() < 0.5:
-                x_augmented = x_augmented[:, ::-1, :].copy()  # Flip Time (dim 1) and copy
-
-            # Spatial flip (geophones and map width)
-            if np.random.random() < 0.5:
-                x_augmented = x_augmented[:, :, ::-1].copy()  # Flip Geophones (dim 2)
-                y_augmented = y_augmented[:, ::-1].copy()     # Flip Map Width (dim 1)
-
-        print(f"[CustomDataset - getitem ]:x_augmented shape {x_augmented.shape} | y_augmented shape: {y_augmented.shape}")
-        # Convert numpy to torch tensors
-        # x_tensor needs to be (Channels, Time, Geophones) -> (5, 1000, 70)
-        x_tensor = torch.from_numpy(x_augmented).float() #.permute(1, 0, 2) # From (1000, 5, 70) to (5, 1000, 70)
-        # y_tensor needs to be (1, Map_Height, Map_Width) -> (1, 70, 70)
-        y_tensor = torch.from_numpy(y_augmented).float().unsqueeze(0) # From (70, 70) to (1, 70, 70)
-        print(f"[CustomDataset - getitem ]:x_tensor shape {x_tensor.shape} | y_tensor shape: {y_tensor.shape}")
-
-        return x_tensor, y_tensor
-
-    def __len__(self, ):
-        print("[CustomDataset - __len__]: self.total_samples: ", self.total_samples)
-        return self.total_samples
-    
 
 ####################
 ## EMA + Ensemble ##
@@ -213,12 +94,7 @@ class ModelEMA(nn.Module):
         self.device = device
         if self.device is not None:
             self.module.to(device=device)
-            # Move buffers like running_mean/var for BatchNorm if they exist (though we replace norms)
-            # This loop handles moving state_dict items
-            # print(f"Moving EMA model to device: {device}")
-            # for k, v in self.module.state_dict().items():
-            #     print(f"  Moving {k} to {device}")
-            #     self.module.state_dict()[k].copy_(v.to(device)) # This copy might be slow
+
 
 
     @torch.no_grad()
@@ -351,27 +227,17 @@ class DecoderBlock2d(nn.Module):
             )
             upsample_out_channels = in_channels // (scale_factor ** 2) # Calculate output channels
         else: # "deconv", "bicubic", "bilinear", "nearest", "avgpool", "nontrainable"
-             # For "deconv", need to set out_channels explicitly if different from in_channels
-             # For others, out_channels is same as in_channels
-             # Assuming deconv is primary mode and might change channels
+
             upsample_out_channels = in_channels if upsample_mode != "deconv" else in_channels # Let's keep it simple for now, assume deconv might change channels or leave them same
             # Re-check MONAI UpSample source: it takes out_channels for deconv
             if upsample_mode == "deconv":
-                 # Deconv output channels usually match input channels for skip connection concatenation
-                 # Let's make deconv out_channels explicit: in_channels -> out_channels
-                 # But wait, the total input to conv1 is upsampled_channels + skip_channels.
-                 # If upsampling changes channels, this needs to be handled.
-                 # Standard practice is upsampling brings feature map to spatial size of skip, channels might match input to block or be related to skip.
-                 # Let's assume for 'deconv', MONAI's UpSample can handle channel adjustment or keeps it `in_channels`.
-                 # Re-reading MONAI UpSample: `out_channels` is only used for "nontrainable" upsample. For "deconv", it infers.
-                 # Okay, let's assume upsample output channels are `in_channels` for deconv too, before concatenation.
-                 self.upsample = UpSample(
+                self.upsample = UpSample(
                     spatial_dims= 2,
                     in_channels= in_channels,
                     scale_factor= scale_factor,
                     mode= upsample_mode,
                 )
-                 upsample_out_channels = in_channels # Assuming deconv keeps channels same for now
+                upsample_out_channels = in_channels # Assuming deconv keeps channels same for now
 
             else: # nontrainable modes
                  self.upsample = UpSample(
@@ -437,17 +303,9 @@ class DecoderBlock2d(nn.Module):
                 # Apply intermediate conv to skip connection
                 skip = self.intermediate_conv(skip)
             else:
-                 # Should not happen in a standard U-Net skip connection flow, but handle if used differently
-                 # If skip is None, intermediate conv might apply to upsampled feature map
-                 # The original code's intermediate conv logic is a bit ambiguous here.
-                 # Let's stick to the common case: intermediate_conv applies to skip.
                  pass # Do nothing if intermediate_conv exists but skip is None
 
         if skip is not None:
-            # Ensure spatial sizes match before concatenation
-            # print(f"Upsampled shape: {x.shape}, Skip shape: {skip.shape}")
-            # If shapes don't match exactly (due to padding/strides), need cropping/padding
-            # Assuming timm/monai handle this correctly or input sizes are compatible
             if x.shape[-2:] != skip.shape[-2:]:
                  # Center crop the larger one or pad the smaller one
                  # Let's center crop the skip connection if it's larger
@@ -499,138 +357,18 @@ class UnetDecoder2d(nn.Module):
         num_decoder_blocks = len(decoder_channels)
 
         if num_decoder_blocks != num_encoder_stages:
-             # The first encoder channel is the input to the first decoder block
-             # The rest are skips. So we need num_decoder_blocks = num_encoder_stages.
-             # If encoder_channels = [C_s3, C_s2, C_s1, C_s0] (4 stages)
-             # Decoder needs 4 blocks: s3->skip(s2), s2_dec->skip(s1), s1_dec->skip(s0), s0_dec->skip(None or final).
-             # The original code sets decoder_channels to (256, 128, 64, 32).
-             # If len(encoder_channels) == 4, it uses decoder_channels[1:] = (128, 64, 32). This implies 3 decoder blocks?
-             # This seems mismatched. Let's align them: num_decoder_blocks = num_encoder_stages.
-             # And the decoder_channels should specify the output channels of each decoder block (deep to shallow).
-             # Let's correct the logic based on a standard U-Net structure.
-             # Input to Decoder: [s_N, s_{N-1}, ..., s_0] where s_N is deepest.
-             # Block 1 input: s_N, skip s_{N-1}, output d_{N-1}
-             # Block 2 input: d_{N-1}, skip s_{N-2}, output d_{N-2}
-             # ...
-             # Block N input: d_1, skip s_0, output d_0
-             # Decoder output channels: [d_{N-1}, d_{N-2}, ..., d_0] (deepest block output -> shallowest block output)
-             # The `decoder_channels` parameter should be the list of *output* channels for each block (deep to shallow).
-             # If `decoder_channels` = (256, 128, 64, 32), these are the output channels of the 4 blocks.
-             # Block 0 (deepest): Input C_s3, Skip C_s2, Output 256
-             # Block 1: Input 256, Skip C_s1, Output 128
-             # Block 2: Input 128, Skip C_s0, Output 64
-             # Block 3: Input 64, Skip 0, Output 32 (assuming 4 encoder stages, the last block might not have a skip or use a placeholder)
 
              if num_decoder_blocks == num_encoder_stages - 1:
-                 # Special case: if decoder_channels is one shorter, it might skip the first (deepest) block output channel?
-                 # No, the original code has `if len(encoder_channels) == 4: decoder_channels= decoder_channels[1:]`
-                 # This suggests if there are 4 encoder features, the decoder *channels* list is truncated.
-                 # If ecs = [C_s3, C_s2, C_s1, C_s0], len=4. decoder_channels becomes (128, 64, 32), len=3.
-                 # This would mean 3 decoder blocks. Where does s3 go? It would be the input to the first block.
-                 # Block 0: Input C_s3, Skip C_s2, Output 128
-                 # Block 1: Input 128, Skip C_s1, Output 64
-                 # Block 2: Input 64, Skip C_s0, Output 32
-                 # This seems plausible for a 4-stage encoder outputting 4 features.
                  print(f"Warning: Number of decoder blocks ({num_decoder_blocks}) does not match encoder stages ({num_encoder_stages}). Adjusting decoder channels.")
-                 # Let's follow the original code's implicit intent: if 4 encoder stages, use 3 decoder blocks with channels (128, 64, 32)
-                 # The input to the first decoder block is the output of the deepest encoder stage (feats[0] / s3).
-                 # The skips are feats[1], feats[2], feats[3] (s2, s1, s0).
 
-                 # Input channels for decoder blocks:
-                 # Block 0: encoder_channels[0] (C_s3)
-                 # Block 1: decoder_channels[0] (128)
-                 # Block 2: decoder_channels[1] (64)
-                 # Block 3 (if exists): decoder_channels[2] (32)
                  in_channels = [encoder_channels[0]] + list(decoder_channels[:-1])
-
-                 # Skip channels for decoder blocks:
-                 # Block 0: encoder_channels[1] (C_s2)
-                 # Block 1: encoder_channels[2] (C_s1)
-                 # Block 2: encoder_channels[3] (C_s0)
-                 # Block 3: 0 (no skip)
                  skip_channels_list = encoder_channels[1:] + [0] # C_s2, C_s1, C_s0, 0
 
-                 # The number of blocks is determined by the length of decoder_channels list
                  actual_decoder_channels = list(decoder_channels)
-                 # If len(encoder_channels) == 4 and original decoder_channels length is 4
-                 # The original code does `decoder_channels = decoder_channels[1:]` -> len becomes 3
-                 # This implies 3 decoder blocks (128, 64, 32) for 4 encoder stages [s3, s2, s1, s0].
-                 # Block 0: input C_s3, skip C_s2, output 128
-                 # Block 1: input 128, skip C_s1, output 64
-                 # Block 2: input 64, skip C_s0, output 32
-                 # This is a bit unconventional. Let's make the number of decoder channels *explicitly* define the blocks.
-                 # If encoder has N stages, timm gives N features. Decoder should have N blocks.
-                 # Let's define decoder_channels as a list of output channels for N blocks.
-                 # If `encoder_channels = [C_s3, C_s2, C_s1, C_s0]` (len 4)
-                 # and `decoder_channels_out = (256, 128, 64, 32)` (len 4)
-                 # Block 0: input C_s3, skip C_s2, output 256
-                 # Block 1: input 256, skip C_s1, output 128
-                 # Block 2: input 128, skip C_s0, output 64
-                 # Block 3: input 64, skip 0, output 32
-                 # This makes more sense. Let's redefine based on this standard structure.
 
-             # Redefined structure:
-             # encoder_channels: [C_s3, C_s2, C_s1, C_s0] (deep to shallow)
-             # decoder_channels_out: [DC0, DC1, DC2, DC3] (deep to shallow block outputs)
-             # Number of blocks = len(encoder_channels) = len(decoder_channels_out)
-             # Block 0: input encoder_channels[0] (C_s3), skip encoder_channels[1] (C_s2), output decoder_channels_out[0] (DC0)
-             # Block i: input decoder_channels_out[i-1] (DC_{i-1}), skip encoder_channels[i+1] (C_{s_{N-(i+1)}}), output decoder_channels_out[i] (DC_i)
-             # Last Block (N-1): input decoder_channels_out[N-2] (DC_{N-2}), skip encoder_channels[N] (C_s0), output decoder_channels_out[N-1] (DC_{N-1})
-             # The skip for the *last* block (corresponding to the shallowest encoder feature) is the 2nd to last element in the encoder_channels list
-             # Example: enc=[s3, s2, s1, s0], dec_out=[d0, d1, d2, d3]
-             # Block 0: in s3, skip s2, out d0
-             # Block 1: in d0, skip s1, out d1
-             # Block 2: in d1, skip s0, out d2
-             # Block 3: in d2, skip NONE, out d3 -> This structure doesn't match typical U-Net where last block connects to s0.
-             # A typical U-Net decoder block takes the *previous decoder output* and the *corresponding encoder skip*.
-             # Input to decoder block i: output of block i-1. Skip for block i: feature from encoder stage i.
-             # If encoder features are [s0, s1, s2, s3] (shallow to deep)
-             # Block 0 (deepest): input s3, skip s2, output d2
-             # Block 1: input d2, skip s1, output d1
-             # Block 2: input d1, skip s0, output d0
-             # This requires encoder features in *shallow to deep* order for skips.
-
-             # Let's reconcile with the original code's `ecs= [_["num_chs"] for _ in self.backbone.feature_info][::-1]`
-             # This means `ecs` is [C_s3, C_s2, C_s1, C_s0].
-             # The `forward` takes `feats` and does `res= [feats[0]]`, then loops using `feats[i]` as skip.
-             # This implies `feats` is also [s3, s2, s1, s0].
-             # `res=[s3]`
-             # loop i=0: `skip=feats[0]=s3`. `b(s3, s3)`. WRONG.
-             # loop i=1: `skip=feats[1]=s2`. `b(output_block0, s2)`. This is the correct skip connection logic.
-
-             # Correct UnetDecoder2d forward logic matching original code's loop structure:
-             # Takes `feats: list[torch.Tensor]` which is [s3, s2, s1, s0] (deep to shallow).
-             # `x = feats[0]` (s3) # Input to the first decoder block
-             # `res = [x]` # Store the initial input (s3) - maybe remove this?
-             # Loop through decoder blocks i=0 to num_blocks-1
-             # Block i takes input from block i-1's output (or s3 for block 0)
-             # Block i takes skip from encoder stage i+1 in the `feats` list
-             # (feats[1] for block 0, feats[2] for block 1, etc.)
-
-             # Let's simplify the decoder structure in `Net` and Decoder `forward`:
-             # Net:
-             # `feats = self.backbone(x)` # [s3, s2, s1, s0]
-             # `trans_s3 = self.transformer_module(feats[0])` # Process s3
-             # `decoder_input = trans_s3` # Deepest feature is input to first decoder block
-             # `decoder_skips = feats[1:]` # s2, s1, s0 are the skips
-             # `decoder_out_list = self.decoder(decoder_input, decoder_skips)` # Pass input and skips explicitly
-             # `seg_head_input = decoder_out_list[-1]`
-
-             # Modified UnetDecoder2d `__init__`:
-             # `encoder_channels_deep_to_shallow`: [C_s3, C_s2, C_s1, C_s0]
-             # `decoder_channels_out`: [DC0, DC1, DC2, DC3] (output channels of blocks, deep to shallow)
-             # num_blocks = len(decoder_channels_out)
-             # Input channels for blocks: [encoder_channels_deep_to_shallow[0], DC0, DC1, DC2]
-             # Skip channels for blocks: [encoder_channels_deep_to_shallow[1], encoder_channels_deep_to_shallow[2], encoder_channels_deep_to_shallow[3], 0] # for 4 stages
 
              if num_decoder_blocks != num_encoder_stages:
                  print(f"Warning: Number of decoder block outputs ({num_decoder_blocks}) does not match number of encoder stages ({num_encoder_stages}). Adjusting number of decoder blocks to match encoder stages.")
-                 # Assume decoder_channels specifies output channels for each block corresponding to each encoder stage feature *as a skip*.
-                 # The number of decoder blocks should equal the number of encoder features used *as skips* + 1 (for the deepest feature).
-                 # If encoder has N stages (0 to N-1), features [s_N-1, ..., s_0] are returned.
-                 # s_N-1 is deepest (input to block 0). s_0 is shallowest (skip for block N-1).
-                 # Number of decoder blocks = N.
-                 # Let's ensure decoder_channels has length N.
                  if len(decoder_channels) != num_encoder_stages:
                      print(f"Adjusting decoder_channels length from {len(decoder_channels)} to {num_encoder_stages}.")
                      # This requires deciding how to adjust channels if the lengths don't match.
@@ -663,12 +401,7 @@ class UnetDecoder2d(nn.Module):
                   )
 
 
-    # Corrected UnetDecoder2d forward signature and logic:
-    # Takes the deepest feature map as main input, and the rest as a list of skips
     def forward(self, deep_feature: torch.Tensor, skip_features: list[torch.Tensor]):
-        # deep_feature: output of the deepest encoder stage (s3 in our example)
-        # skip_features: list of shallower encoder features [s2, s1, s0]
-
         x = deep_feature
         decoder_outputs = [x] # Store intermediate decoder block outputs (optional, but maybe useful)
 
@@ -678,10 +411,6 @@ class UnetDecoder2d(nn.Module):
             skip = skip_features[i] if i < len(skip_features) else None # Handle case where last block has no skip
             x = block(x, skip=skip)
             decoder_outputs.append(x)
-
-        # Return all block outputs or just the final one depending on use case
-        # The SegmentationHead takes the *last* decoder block output.
-        # Let's return the list of outputs as before, but the last one is the final result.
         return decoder_outputs # [input_s3, output_block0, output_block1, ...]
 
 
@@ -728,13 +457,6 @@ class SegmentationHead2d(nn.Module):
 ## Encoder ##
 #############
 
-# The original _convnext_block_forward modification might not be needed
-# if we are using features_only=True and modifying the stem manually.
-# Let's remove it and the replace_forwards call.
-# def _convnext_block_forward(self, x):
-#     # ... (original timm code) ...
-#     pass
-
 
 class TemporalSpatialTransformer(nn.Module):
     """
@@ -756,8 +478,6 @@ class TemporalSpatialTransformer(nn.Module):
         trunc_normal_(self.pos_embed_w, std=.02)
 
 
-        # Transformer Encoder Layers
-        # Use nn.TransformerEncoder which is a stack of TransformerEncoderLayer
         transformer_layer = nn.TransformerEncoderLayer(
             d_model=embed_dim,
             nhead=8, # Typical number of heads, could make configurable
@@ -776,17 +496,11 @@ class TemporalSpatialTransformer(nn.Module):
         self.spatial_transformer = nn.TransformerEncoder(nn.ModuleList(transformer_layers_w), num_layers=num_layers)
 
 
-        # Add LayerNorm before the transformer blocks if norm_first=False in TransformerEncoderLayer
-        # Since norm_first=True, LayerNorm is handled within the layer/encoder.
-
-
     def forward(self, x):
         # Input shape: (B, C, H, W)
         B, C, H, W = x.shape
         assert C == self.embed_dim, f"Input channel mismatch: {C} != {self.embed_dim}"
-        # The input H and W should match the expected sequence lengths,
-        # but they might differ slightly due to padding/striding in the stem/backbone.
-        # Let's pad the input spatially if needed to match expected seq_len_h/w for PE and transformer.
+
         if H != self.seq_len_h or W != self.seq_len_w:
              # print(f"Warning: Feature map spatial size ({H},{W}) does not match expected ({self.seq_len_h},{self.seq_len_w}) for Transformer. Padding/Cropping.")
              # Calculate padding/cropping
@@ -807,12 +521,6 @@ class TemporalSpatialTransformer(nn.Module):
 
         identity = x # Residual connection
 
-
-        # Apply positional embeddings (broadcasts over B and the missing spatial dimension)
-        # PE shape (1, 1, H, 1, E) -> (B, C, H, W) needs (B, C, H, W) PE
-        # PE_h (1, 1, H, 1, E) should be (1, E, H, 1) for 4D tensor adding
-        # PE_w (1, 1, 1, W, E) should be (1, E, 1, W) for 4D tensor adding
-        # Let's reshape PE params to (1, E, H, 1) and (1, E, 1, W)
         pos_embed_h_4d = self.pos_embed_h.squeeze(dim=3).permute(0, 4, 2, 1) # (1, E, H, 1)
         pos_embed_w_4d = self.pos_embed_w.squeeze(dim=2).permute(0, 4, 1, 2) # (1, E, 1, W)
 
@@ -847,10 +555,13 @@ class TemporalSpatialTransformer(nn.Module):
 class Net(nn.Module):
     def __init__(
         self,
+        cfg,
         backbone: str,
         pretrained: bool = True,
     ):
         super().__init__()
+
+        self.cfg = cfg
 
         # Encoder - use features_only=True to get multi-scale features
         # We will manually modify the stem after loading the model.
@@ -858,36 +569,14 @@ class Net(nn.Module):
             backbone,
             in_chans= 5,
             pretrained= pretrained,
-            features_only= False, #True, # Get list of features from stages
+            features_only= True, # Get list of features from stages
             drop_path_rate=0.0,
         )
 
-        # Get encoder channel counts from feature_info (deep to shallow)
-        # feature_info lists info for each output feature from `features_only=True`
-        # The order is typically from the deepest stage to the shallowest.
         encoder_feature_info = self.backbone.feature_info
         encoder_channels = [info['num_chs'] for info in encoder_feature_info] # [C_s3, C_s2, C_s1, C_s0] for a 4-stage model
 
-        # --- Modify the stem AFTER loading ---
-        # This requires inspecting the backbone's structure (usually has a 'stem' attribute)
-        # The timm ConvNeXt stem is a Sequential block: Conv2d -> LayerNorm2d
-        # Let's override the forward method of the backbone to use our custom stem
-        # Or, replace the stem layers directly. Replacing layers is cleaner.
         self._update_stem(backbone)
-
-        # --- Determine the spatial size of the last feature map (input to Transformer) ---
-        # This depends on the backbone's downsampling after the modified stem.
-        # A dummy pass is the most reliable way to get the shapes *after* the custom stem.
-        # Or, calculate manually based on kernel/stride/padding for each stage.
-        # Let's calculate based on our assumed stem output (71, 72) and standard ConvNeXt downsampling (2x per stage).
-        # Stem output: (B, 128, 71, 72) - assuming _update_stem results in this
-        # Stages 0, 1, 2, 3 have downsampling before them (except stage 0).
-        # Stage 0: no spatial downsample (uses stride 1) -> (71, 72)
-        # Stage 1: 2x spatial downsample -> (71//2, 72//2) = (35, 36)
-        # Stage 2: 2x spatial downsample -> (35//2, 36//2) = (17, 18)
-        # Stage 3: 2x spatial downsample -> (17//2, 18//2) = (8, 9)
-        # So the last feature map (from stage 3) is approximately (8, 9).
-        # The channel count is encoder_channels[0] (e.g. 768 for convnext_small).
 
         H_last_feat = max(1, round(71 / (2**3))) # Approx H after 3 stages of 2x downsampling
         W_last_feat = max(1, round(72 / (2**3))) # Approx W after 3 stages of 2x downsampling
@@ -946,21 +635,6 @@ class Net(nn.Module):
         # self.replace_forwards(self.backbone, log=True) # REMOVE THIS CALL
 
 
-    # Helper to calculate stem output shape - only needed if we applied transformer here
-    # Or if the subsequent ConvNeXt stages rely on a specific spatial padding/size relationship
-    # relative to the stem output size. For now, we assume standard ConvNeXt downsampling applies
-    # after the modified stem, and the Transformer input size is calculated accordingly.
-    # If spatial sizes are critical, this function might be needed to adjust subsequent layers or padding.
-    # def _calculate_stem_output_shape(self, input_shape):
-    #     # This is complex due to padding and stride in the custom stem
-    #     # A dummy pass through the stem is the most reliable way
-    #     with torch.no_grad():
-    #         dummy_input = torch.randn(1, *input_shape)
-    #         stem_out = self.backbone.stem(dummy_input)
-    #         return stem_out.shape[1:] # Return (C, H, W)
-    #     pass # Not implemented for now as Transformer is applied later
-
-
     def _update_stem(self, backbone):
         """
         Modifies the initial layers (stem) of the ConvNeXt backbone
@@ -974,21 +648,6 @@ class Net(nn.Module):
         original_stem_conv = backbone.stem[0]
         original_stem_norm = backbone.stem[1]
 
-        # Input shape: (B, 5, 1000, 70)
-        # Desired shape after stem (approx): (B, C_stem, H_stem, W_stem) where H_stem ~70, W_stem ~70
-        # The original code uses two conv layers in the stem modification. Let's replicate that.
-
-        # First conv: adapts channels (5 -> C_stem) and does initial downsampling
-        # Original: kernel=(16, 4), stride=(4, 1), padding=(0, 2)
-        # Input (1000, 70) -> (247, 71) spatial after this conv
-        # The padding and kernel size are unusual for a standard image stem.
-        # Let's replicate the structure from the user's original Net class.
-
-        # Note: The original _update_stem replaced the stem_0 (first layer of timm's Sequential stem)
-        # and added a second conv. This seems specific. Let's follow the *structure* from the original code.
-        # The original code defines stem_0 as nn.Sequential(ReflectionPad2d, original_stem_conv, new_conv)
-        # And the original LayerNorm is likely lost unless added back explicitly.
-        # Let's redefine the stem Sequential block entirely.
 
         # Get original conv and norm parameters
         in_chans = original_stem_conv.in_channels
@@ -1048,43 +707,15 @@ class Net(nn.Module):
 
         new_stem_layers.append(stem_conv2)
 
-        # Where does the LayerNorm go? The original timm stem had Conv->Norm.
-        # The original modified stem in user code only showed convs and padding.
-        # For ConvNeXt, LayerNorm is crucial after the stem.
-        # Let's add a LayerNorm AFTER the two custom conv layers in the new stem.
-        # It should normalize over spatial dims (H, W) and channels.
-        # LayerNorm(normalized_shape) - should be (C, H, W) or just (C,) depending on usage.
-        # ConvNeXt LayerNorm is usually over channels only.
-        # LayerNorm(num_features) is equivalent to GroupNorm with group=1 and num_groups=num_features.
-        # timm uses LayerNorm(num_channels) with affine=True.
-        # The output shape before norm is (B, out_chans, H_final_stem, W_final_stem).
-        # Let's add a LayerNorm over the channel dimension.
-        # However, `replace_norms` will turn this into InstanceNorm2d.
-        # So, just add a standard LayerNorm here, and let `replace_norms` handle it.
-        # It should be LayerNorm(out_chans)
 
-        # Let's add the LayerNorm after the second conv
         stem_norm = nn.LayerNorm(out_chans, eps=1e-6) # ConvNeXt uses eps=1e-6
         new_stem_layers.append(stem_norm)
 
 
-        # Replace the backbone's original stem with the new sequential block
-        # timm ConvNeXt usually has backbone.stem as nn.Sequential
         if hasattr(backbone, 'stem') and isinstance(backbone.stem, nn.Sequential):
              backbone.stem = nn.Sequential(*new_stem_layers)
              print(f"Replaced backbone stem with custom sequential block.")
-             # Also need to modify the first downsample layer, as the stem output
-             # spatial size is different from the original ConvNeXt expected input to stages[0].
-             # Standard ConvNeXt has a downsample layer *after* the stem and *before* stage 0.
-             # This downsample layer usually has stride 1 and changes channels.
-             # In features_only=True, stage 0 is the first element in `stages`.
-             # The input to stages[0] is the output of the stem.
-             # The first *spatial* downsampling (2x) happens *before* stage 1, via downsample_layers[0].
-             # The custom stem already aggressively downsamples H (1000 -> 71).
-             # Standard stages/downsampling might need adjustment.
-             # Let's assume the standard downsample_layers and stages can handle the (71, 72) spatial input from the stem.
-             # If not, more complex surgery on the backbone is needed, which violates 'lightweight'.
-             # Stick to modifying only the stem and applying Transformer after the last stage.
+
         else:
              print(f"Warning: Backbone stem structure is not as expected for modification.")
 
@@ -1092,7 +723,8 @@ class Net(nn.Module):
     def replace_activations(self, module, log=False):
         """ Recursively replaces specific activation functions with GELU. """
         if log:
-            print(f"Replacing activations with GELU...")
+            # print(f"Replacing activations with GELU...")
+            pass
 
         for name, child in module.named_children():
             if isinstance(child, (
@@ -1110,12 +742,13 @@ class Net(nn.Module):
     def replace_norms(self, mod, log=False):
         """ Recursively replaces specific normalization layers with InstanceNorm2d, skipping LayerNorm. """
         if log:
-            print(f"Replacing norms with InstanceNorm2d (skipping LayerNorm)...")
+            # print(f"Replacing norms with InstanceNorm2d (skipping LayerNorm)...")
+            pass
 
         for name, c in mod.named_children():
             # Skip LayerNorm as it's used in Transformers and ConvNeXt often uses it after stem
             if isinstance(c, nn.LayerNorm):
-                if log: print(f"  Skipping LayerNorm at {name}")
+                # if log: print(f"  Skipping LayerNorm at {name}")
                 continue
 
             # Get feature size (handle different norm types)
@@ -1128,7 +761,7 @@ class Net(nn.Module):
 
             if n_feats is not None:
                 # Create new InstanceNorm2d layer
-                if log: print(f"  Replacing {type(c).__name__} at {name} with InstanceNorm2d")
+                # if log: print(f"  Replacing {type(c).__name__} at {name} with InstanceNorm2d")
                 new = nn.InstanceNorm2d(
                     n_feats,
                     affine=True, # Keep affine=True to match BatchNorm/LayerNorm behavior
@@ -1160,35 +793,33 @@ class Net(nn.Module):
              amp_dtype = None # Explicitly None if AMP is off
 
 
-        # The backbone was loaded with features_only=True, but we replaced the stem.
-        # The backbone forward *might* still call its internal original stem logic or expect a certain input format.
-        # It's safer to call the stages manually after our modified stem.
-
-        # Manual backbone forward
-        # Need access to backbone.stem, backbone.stages (ModuleList), backbone.downsample_layers (ModuleList)
-        # Check if the modified stem and these attributes exist
-        if not hasattr(self.backbone, 'stem') or not hasattr(self.backbone, 'stages') or not hasattr(self.backbone, 'downsample_layers'):
-            raise AttributeError("Backbone structure not as expected for manual forward pass.")
+        # if not hasattr(self.backbone, 'stem') or not hasattr(self.backbone, 'stages') or not hasattr(self.backbone, 'downsample_layers'):
+        #     raise AttributeError("Backbone structure not as expected for manual forward pass.")
 
         with torch.autocast(device_type=self.cfg.device.type, dtype=amp_dtype, enabled=amp_enabled):
              x_in = x # Keep original input for inference-time flip
 
              # Pass through the custom stem
              # The stem expects (B, C, H, W) where C=5, H=1000, W=70
-             stem_out = self.backbone.stem(x) # Output (B, C_stem, H_stem, W_stem) e.g. (B, 128, 71, 72)
+            #  stem_out = self.backbone.stem(x) # Output (B, C_stem, H_stem, W_stem) e.g. (B, 128, 71, 72)
+             x = self.backbone.stem_0(x) #pass through the first layer (Conv2d)
+             stem_out = self.backbone.stem_1(x) # Pass through the second layer (LayerNorm2d) # output (B, C, H, W) 
 
              # Pass through subsequent stages and downsamples
              # Collect intermediate features for the decoder
              features_for_decoder = []
              # Stage 0 is the first stage after the stem. Add its output.
-             x = self.backbone.stages[0](stem_out)
+            #  x = self.backbone.stages[0](stem_out)
+             x = self.backbone.stages_0(stem_out)
              features_for_decoder.append(x) # s0
 
              # Pass through subsequent stages and downsamples
              # Stages 1, 2, 3 are connected via downsample layers
              # The i-th downsample_layer is applied before the i+1-th stage
              for i in range(len(self.backbone.downsample_layers)): # Loop through downsample layers
+            #  for i in range(len(self.backbone.downsample)): # Loop through downsample layers
                  # downsample_layers[i] is applied to the output of stages[i]
+                #  x = self.backbone.downsample[i](x)
                  x = self.backbone.downsample_layers[i](x)
                  # The output of downsample_layers[i] is input to stages[i+1]
                  x = self.backbone.stages[i+1](x)
@@ -1217,11 +848,7 @@ class Net(nn.Module):
              # Segmentation Head
              x_seg = self.seg_head(seg_head_input)
 
-             # Post-processing (cropping, scaling)
-             # The output is (B, 1, 72, 72) approximately due to padding, need to crop to 70x70
-             # Assumes the output size is 72x72 based on stem calculation and no further downsampling affecting this ratio.
-             # Need to calculate the actual output size reliably or make cropping dynamic.
-             # Let's assume it's 72x72 and crop 1 pixel from each side.
+
              output_h, output_w = x_seg.shape[-2:]
              target_h, target_w = 70, 70
              if output_h != target_h or output_w != target_w:
@@ -1259,107 +886,3 @@ def set_seed(seed=cfg.seed):
     torch.manual_seed(seed)
 
 set_seed(cfg.seed)
-
-
-# --- Data Loading ---
-# Make sure file_pairs list is not empty before creating datasets
-if not cfg.file_pairs:
-    print("No data file pairs found. Exiting.")
-    # You would typically handle this case appropriately, e.g., exit, raise error, or load dummy data
-    # For this notebook structure, we'll just print and the subsequent code might fail
-    train_dl = [] # Empty lists to prevent errors later
-    valid_dl = []
-    print("Created empty dataloaders.")
-else:
-    # Use a small subset for validation/test if subsample is used for train
-    # Or split files into train/val/test sets. For simplicity, use all files for both train/val here.
-    # In a real scenario, you'd split `cfg.file_pairs` into train_files, val_files, test_files
-    # and pass the appropriate list to each dataset instance.
-    # For demonstration, using all files for train and val as in the original code structure,
-    # but the subsample logic will limit the actual number of samples.
-
-    # Small split for demonstration purposes
-    total_files = len(cfg.file_pairs)
-    print(f"number of files in the data base: {total_files}")
-    if total_files > 1:
-        split_idx = max(1, int(total_files * 0.8)) # 80% train, 20% val
-        train_file_pairs = cfg.file_pairs[:split_idx]
-        valid_file_pairs = cfg.file_pairs[split_idx:]
-        # Optional: Further split valid_file_pairs for a separate test set
-        # test_file_pairs = ...
-    else:
-        # If only one file, use it for both (not ideal for training)
-        train_file_pairs = cfg.file_pairs
-        valid_file_pairs = cfg.file_pairs
-
-
-    print(f"Using {len(train_file_pairs)} files for training and {len(valid_file_pairs)} for validation.")
-
-    train_ds = CustomDataset(cfg=cfg, file_pairs=train_file_pairs, mode="train")
-    train_dl = torch.utils.data.DataLoader(
-        train_ds,
-        batch_size= cfg.batch_size,
-        num_workers= 0, # Set to > 0 for faster loading if memory allows
-        shuffle=True,
-        pin_memory=True, # speeds up data transfer to GPU
-    )
-
-    valid_ds = CustomDataset(cfg=cfg, file_pairs=valid_file_pairs, mode="valid")
-    valid_dl = torch.utils.data.DataLoader(
-        valid_ds,
-        batch_size= cfg.batch_size_val,
-        num_workers= 0, # Set to > 0 for faster loading
-        shuffle=False,
-        pin_memory=True,
-    )
-
-# Check dataset output shapes
-if train_dl:
-    x, y = next(iter(train_dl))
-    print("\nDataLoader sample shapes:")
-    print("Input (x):", x.shape) # Expected: (B, C, T, W) -> (B, 5, 1000, 70)
-    print("Output (y):", y.shape) # Expected: (B, 1, H', W') -> (B, 1, 70, 70)
-
-
-# ========== Model / Optim ==========
-print(f"\nInitializing model on device: {cfg.device}")
-model = Net(backbone=cfg.backbone).to(cfg.device)
-
-# Check initial model output shape with a dummy input on the correct device
-if train_dl:
-    try:
-        dummy_input = torch.randn(cfg.batch_size, 5, 1000, 70).to(cfg.device)
-        with torch.no_grad():
-             dummy_output = model(dummy_input)
-        print(f"Dummy model output shape: {dummy_output.shape}")
-        expected_output_shape = (cfg.batch_size, 1, 70, 70)
-        if dummy_output.shape != expected_output_shape:
-             print(f"Warning: Model output shape {dummy_output.shape} does not match expected {expected_output_shape}.")
-    except Exception as e:
-        print(f"Error during dummy model forward pass: {e}")
-
-
-if cfg.ema:
-    if cfg.local_rank == 0:
-        print("Initializing EMA model..")
-    # Initialize EMA model on the same device as the main model
-    ema_model = ModelEMA(
-        model,
-        decay=cfg.ema_decay,
-        device=cfg.device,
-    )
-else:
-    ema_model = None
-
-# criterion = nn.L1Loss() # Original criterion
-# Common losses for regression maps: MSELoss, L1Loss, HuberLoss. L1 is less sensitive to outliers.
-# For map-like output, often MSE or smooth L1 are used.
-criterion = nn.MSELoss() # Let's use MSELoss as it's common for regression
-
-optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
-
-
-# Removed GradScaler - Re-add if using float16 AMP during training for stability
-# If using bfloat16, a scaler is often not strictly necessary but can still help in some cases.
-# The current code does NOT use a scaler with AMP. This might be unstable with float16.
-# For bfloat16, it's usually okay.
