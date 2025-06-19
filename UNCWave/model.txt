@@ -785,5 +785,10 @@ pos_embed_h after squeeze dim=3: torch.Size([1, 1, 9, 96])
 >>> After Transformer: torch.Size([8, 96, 9, 9])
 102
 104
-Error during dummy model forward pass: 'list' object has no attribute 'shape'
+104-1 decoder_skips length : 3 decoder skips s2 torch.Size([8, 768, 31, 2]) | s1 torch.Size([8, 384, 62, 4]) | s0 torch.Size([8, 192, 125, 8])
+[DecoderBlock2d] - forward ---
+x.shape: torch.Size([8, 96, 18, 18]) | target_h 18 | target_w 18
+skip.shape: torch.Size([8, 192, 125, 8]) | skip_h 125 | skip_w 8
+[DecoderBlock2d] x shape: torch.Size([8, 96, 18, 18]), skip shape: torch.Size([8, 192, 18, 8])
+Error during dummy model forward pass: Sizes of tensors must match except in dimension 1. Expected size 18 but got size 8 for tensor number 1 in the list.
 Initializing EMA model..
