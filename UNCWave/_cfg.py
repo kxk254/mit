@@ -7,7 +7,7 @@ cfg= SimpleNamespace()
 cfg.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cfg.local_rank = 0
 cfg.seed = 123
-cfg.subsample = 100 #None
+cfg.subsample = 10 #None
 
 cfg.file_pairs = list(zip(sorted(glob.glob("./datasetfiles/FlatVel_A/data/*.npy")), sorted(glob.glob("./datasetfiles/FlatVel_A/model/*.npy"))))
 # cfg.file_pairs = list(zip(data_paths, label_paths))
@@ -17,7 +17,7 @@ cfg.backbone = "convnext_small.fb_in22k_ft_in1k"
 cfg.ema = True
 cfg.ema_decay = 0.99
 
-cfg.epochs = 4
+cfg.epochs = 1
 cfg.batch_size = 8  # 16
 cfg.batch_size_val = 8 # 16
 
