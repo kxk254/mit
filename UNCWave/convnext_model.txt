@@ -614,3 +614,314 @@ Net(
     )
   )
 )
+
+
+Epoch 0 Validation:   0%|          | 0/2 [00:00<?, ?it/s]
+[Net] - Stem x shape : torch.Size([8, 5, 1000, 70])
+[Net] - Encoder x shape : [torch.Size([8, 96, 72, 72]), torch.Size([8, 192, 36, 36]), torch.Size([8, 384, 18, 18]), torch.Size([8, 768, 9, 9])]
+[UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([8, 384, 18, 18]) | s1 shape torch.Size([8, 192, 36, 36]) |s2 shape torch.Size([8, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([8, 768, 9, 9]) | skip shape torch.Size([8, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([8, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([8, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([8, 128, 18, 18]) | skip shape torch.Size([8, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([8, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([8, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([8, 64, 36, 36]) | skip shape torch.Size([8, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([8, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([8, 32, 72, 72])
+[Net] - Decoder x shape : [torch.Size([8, 768, 9, 9]), torch.Size([8, 128, 18, 18]), torch.Size([8, 64, 36, 36]), torch.Size([8, 32, 72, 72])]
+[Segmentation Head 2d] forward--
+[Net] - Decoder x_seg shape : torch.Size([8, 1, 70, 70])
+[Net] - Decoder x_seg x1500 + 3000 shape : torch.Size([8, 1, 70, 70])
+
+Epoch 0 Validation:  50%|█████     | 1/2 [00:02<00:02,  2.60s/it]
+
+[UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([8, 384, 18, 18]) | s1 shape torch.Size([8, 192, 36, 36]) |s2 shape torch.Size([8, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([8, 768, 9, 9]) | skip shape torch.Size([8, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([8, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([8, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([8, 128, 18, 18]) | skip shape torch.Size([8, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([8, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([8, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([8, 64, 36, 36]) | skip shape torch.Size([8, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([8, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([8, 32, 72, 72])
+[Segmentation Head 2d] forward--
+[Net] - Stem x shape : torch.Size([2, 5, 1000, 70])
+[Net] - Encoder x shape : [torch.Size([2, 96, 72, 72]), torch.Size([2, 192, 36, 36]), torch.Size([2, 384, 18, 18]), torch.Size([2, 768, 9, 9])]
+[UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([2, 384, 18, 18]) | s1 shape torch.Size([2, 192, 36, 36]) |s2 shape torch.Size([2, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([2, 768, 9, 9]) | skip shape torch.Size([2, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 128, 18, 18]) | skip shape torch.Size([2, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 64, 36, 36]) | skip shape torch.Size([2, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Net] - Decoder x shape : [torch.Size([2, 768, 9, 9]), torch.Size([2, 128, 18, 18]), torch.Size([2, 64, 36, 36]), torch.Size([2, 32, 72, 72])]
+[Segmentation Head 2d] forward--
+[Net] - Decoder x_seg shape : torch.Size([2, 1, 70, 70])
+[Net] - Decoder x_seg x1500 + 3000 shape : torch.Size([2, 1, 70, 70])
+Epoch 0 Validation: 100%|██████████| 2/2 [00:03<00:00,  1.63s/it]
+[UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([2, 384, 18, 18]) | s1 shape torch.Size([2, 192, 36, 36]) |s2 shape torch.Size([2, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([2, 768, 9, 9]) | skip shape torch.Size([2, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 128, 18, 18]) | skip shape torch.Size([2, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 64, 36, 36]) | skip shape torch.Size([2, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Segmentation Head 2d] forward--
+Epoch 1 Training:   0%|          | 0/2 [00:00<?, ?it/s][Net] - Stem x shape : torch.Size([8, 5, 1000, 70])
+[Net] - Encoder x shape : [torch.Size([8, 96, 72, 72]), torch.Size([8, 192, 36, 36]), torch.Size([8, 384, 18, 18]), torch.Size([8, 768, 9, 9])]
+[UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([8, 384, 18, 18]) | s1 shape torch.Size([8, 192, 36, 36]) |s2 shape torch.Size([8, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([8, 768, 9, 9]) | skip shape torch.Size([8, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([8, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([8, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([8, 128, 18, 18]) | skip shape torch.Size([8, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([8, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([8, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([8, 64, 36, 36]) | skip shape torch.Size([8, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([8, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([8, 32, 72, 72])
+[Net] - Decoder x shape : [torch.Size([8, 768, 9, 9]), torch.Size([8, 128, 18, 18]), torch.Size([8, 64, 36, 36]), torch.Size([8, 32, 72, 72])]
+[Segmentation Head 2d] forward--
+[Net] - Decoder x_seg shape : torch.Size([8, 1, 70, 70])
+[Net] - Decoder x_seg x1500 + 3000 shape : torch.Size([8, 1, 70, 70])
+Epoch 1 Training:  50%|█████     | 1/2 [00:05<00:05,  5.47s/it][Net] - Stem x shape : torch.Size([2, 5, 1000, 70])
+[Net] - Encoder x shape : [torch.Size([2, 96, 72, 72]), torch.Size([2, 192, 36, 36]), torch.Size([2, 384, 18, 18]), torch.Size([2, 768, 9, 9])]
+[UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([2, 384, 18, 18]) | s1 shape torch.Size([2, 192, 36, 36]) |s2 shape torch.Size([2, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([2, 768, 9, 9]) | skip shape torch.Size([2, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 128, 18, 18]) | skip shape torch.Size([2, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 64, 36, 36]) | skip shape torch.Size([2, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Net] - Decoder x shape : [torch.Size([2, 768, 9, 9]), torch.Size([2, 128, 18, 18]), torch.Size([2, 64, 36, 36]), torch.Size([2, 32, 72, 72])]
+[Segmentation Head 2d] forward--
+[Net] - Decoder x_seg shape : torch.Size([2, 1, 70, 70])
+[Net] - Decoder x_seg x1500 + 3000 shape : torch.Size([2, 1, 70, 70])
+Epoch 1 Training: 100%|██████████| 2/2 [00:07<00:00,  3.51s/it]
+Epoch 1 Validation:   0%|          | 0/2 [00:00<?, ?it/s][Net] - Stem x shape : torch.Size([8, 5, 1000, 70])
+[Net] - Encoder x shape : [torch.Size([8, 96, 72, 72]), torch.Size([8, 192, 36, 36]), torch.Size([8, 384, 18, 18]), torch.Size([8, 768, 9, 9])]
+[UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([8, 384, 18, 18]) | s1 shape torch.Size([8, 192, 36, 36]) |s2 shape torch.Size([8, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([8, 768, 9, 9]) | skip shape torch.Size([8, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([8, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([8, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([8, 128, 18, 18]) | skip shape torch.Size([8, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([8, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([8, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([8, 64, 36, 36]) | skip shape torch.Size([8, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([8, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([8, 32, 72, 72])
+[Net] - Decoder x shape : [torch.Size([8, 768, 9, 9]), torch.Size([8, 128, 18, 18]), torch.Size([8, 64, 36, 36]), torch.Size([8, 32, 72, 72])]
+[Segmentation Head 2d] forward--
+[Net] - Decoder x_seg shape : torch.Size([8, 1, 70, 70])
+[Net] - Decoder x_seg x1500 + 3000 shape : torch.Size([8, 1, 70, 70])
+Epoch 1 Validation:  50%|█████     | 1/2 [00:02<00:02,  2.86s/it][UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([8, 384, 18, 18]) | s1 shape torch.Size([8, 192, 36, 36]) |s2 shape torch.Size([8, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([8, 768, 9, 9]) | skip shape torch.Size([8, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([8, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([8, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([8, 128, 18, 18]) | skip shape torch.Size([8, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([8, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([8, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([8, 64, 36, 36]) | skip shape torch.Size([8, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([8, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([8, 32, 72, 72])
+[Segmentation Head 2d] forward--
+[Net] - Stem x shape : torch.Size([2, 5, 1000, 70])
+[Net] - Encoder x shape : [torch.Size([2, 96, 72, 72]), torch.Size([2, 192, 36, 36]), torch.Size([2, 384, 18, 18]), torch.Size([2, 768, 9, 9])]
+[UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([2, 384, 18, 18]) | s1 shape torch.Size([2, 192, 36, 36]) |s2 shape torch.Size([2, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([2, 768, 9, 9]) | skip shape torch.Size([2, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 128, 18, 18]) | skip shape torch.Size([2, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 64, 36, 36]) | skip shape torch.Size([2, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Net] - Decoder x shape : [torch.Size([2, 768, 9, 9]), torch.Size([2, 128, 18, 18]), torch.Size([2, 64, 36, 36]), torch.Size([2, 32, 72, 72])]
+[Segmentation Head 2d] forward--
+[Net] - Decoder x_seg shape : torch.Size([2, 1, 70, 70])
+[Net] - Decoder x_seg x1500 + 3000 shape : torch.Size([2, 1, 70, 70])
+Epoch 1 Validation: 100%|██████████| 2/2 [00:03<00:00,  1.79s/it][UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([2, 384, 18, 18]) | s1 shape torch.Size([2, 192, 36, 36]) |s2 shape torch.Size([2, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([2, 768, 9, 9]) | skip shape torch.Size([2, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 128, 18, 18]) | skip shape torch.Size([2, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 64, 36, 36]) | skip shape torch.Size([2, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Segmentation Head 2d] forward--
+
+---------------
+[UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([8, 384, 18, 18]) | s1 shape torch.Size([8, 192, 36, 36]) |s2 shape torch.Size([8, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([8, 768, 9, 9]) | skip shape torch.Size([8, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([8, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([8, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([8, 128, 18, 18]) | skip shape torch.Size([8, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([8, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([8, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([8, 64, 36, 36]) | skip shape torch.Size([8, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([8, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([8, 32, 72, 72])
+[Segmentation Head 2d] forward--
+[Net] - Stem x shape : torch.Size([2, 5, 1000, 70])
+[Net] - Encoder x shape : [torch.Size([2, 96, 72, 72]), torch.Size([2, 192, 36, 36]), torch.Size([2, 384, 18, 18]), torch.Size([2, 768, 9, 9])]
+[UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([2, 384, 18, 18]) | s1 shape torch.Size([2, 192, 36, 36]) |s2 shape torch.Size([2, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([2, 768, 9, 9]) | skip shape torch.Size([2, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 128, 18, 18]) | skip shape torch.Size([2, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 64, 36, 36]) | skip shape torch.Size([2, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Net] - Decoder x shape : [torch.Size([2, 768, 9, 9]), torch.Size([2, 128, 18, 18]), torch.Size([2, 64, 36, 36]), torch.Size([2, 32, 72, 72])]
+[Segmentation Head 2d] forward--
+[Net] - Decoder x_seg shape : torch.Size([2, 1, 70, 70])
+[Net] - Decoder x_seg x1500 + 3000 shape : torch.Size([2, 1, 70, 70])
+
+
+---------------
+
+[UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([8, 384, 18, 18]) | s1 shape torch.Size([8, 192, 36, 36]) |s2 shape torch.Size([8, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([8, 768, 9, 9]) | skip shape torch.Size([8, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([8, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([8, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([8, 128, 18, 18]) | skip shape torch.Size([8, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([8, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([8, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([8, 64, 36, 36]) | skip shape torch.Size([8, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([8, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([8, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([8, 32, 72, 72])
+[Segmentation Head 2d] forward--
+[Net] - Stem x shape : torch.Size([2, 5, 1000, 70])
+[Net] - Encoder x shape : [torch.Size([2, 96, 72, 72]), torch.Size([2, 192, 36, 36]), torch.Size([2, 384, 18, 18]), torch.Size([2, 768, 9, 9])]
+[UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([2, 384, 18, 18]) | s1 shape torch.Size([2, 192, 36, 36]) |s2 shape torch.Size([2, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([2, 768, 9, 9]) | skip shape torch.Size([2, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 128, 18, 18]) | skip shape torch.Size([2, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 64, 36, 36]) | skip shape torch.Size([2, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Net] - Decoder x shape : [torch.Size([2, 768, 9, 9]), torch.Size([2, 128, 18, 18]), torch.Size([2, 64, 36, 36]), torch.Size([2, 32, 72, 72])]
+[Segmentation Head 2d] forward--
+[Net] - Decoder x_seg shape : torch.Size([2, 1, 70, 70])
+[Net] - Decoder x_seg x1500 + 3000 shape : torch.Size([2, 1, 70, 70])
+
+---------------
+[UnetDecoder2d] - forward length of feats and shapes 3 | s0 shape torch.Size([2, 384, 18, 18]) | s1 shape torch.Size([2, 192, 36, 36]) |s2 shape torch.Size([2, 96, 72, 72]) |
+[DecoderBlock2d] -- forward x shape torch.Size([2, 768, 9, 9]) | skip shape torch.Size([2, 384, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 1152, 18, 18])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[Attention2d] --forward | x shape torch.Size([2, 128, 18, 18])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 128, 18, 18]) | skip shape torch.Size([2, 192, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 320, 36, 36])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[Attention2d] --forward | x shape torch.Size([2, 64, 36, 36])
+[DecoderBlock2d] -- forward x shape torch.Size([2, 64, 36, 36]) | skip shape torch.Size([2, 96, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 160, 72, 72])
+[ConvBnAct2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Attention2d] --forward | x shape torch.Size([2, 32, 72, 72])
+[Segmentation Head 2d] forward--
